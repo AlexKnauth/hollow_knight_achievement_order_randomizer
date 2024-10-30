@@ -1,4 +1,4 @@
-#lang rhombus/and_meta
+#lang rhombus/static/and_meta
 
 import:
   rhombus/runtime_path
@@ -64,7 +64,7 @@ syntax_class Entries:
 
 def '$(entries :: Entries)': AARAO_shrb
 
-def AARAO_map: entries.map
+def AARAO_map :: Map: entries.map
 
 def AARAO_keys: AARAO_map.keys()
 
@@ -84,7 +84,7 @@ fun loop(progression :: Map, remaining :: List, given :: List):
   | n: loop(progression ++ {n: #true}, remaining.remove(n), given.add(n))
   | ~else: given
 
-def AARAO: loop(init, AARAO_keys, [])
+def AARAO :: List: loop(init, AARAO_keys, [])
 
 for (A: AARAO):
   println(A)
