@@ -2,7 +2,7 @@
 
 ;; Package Info
 
-(define collection "hollow-knight-achievement-order-randomizer")
+(define collection "hollow_knight_achievement_order_randomizer")
 
 (define deps
   '("base"
@@ -27,4 +27,4 @@
 
 ;; Collection Info
 
-(define scribblings '(("scribblings/hollow-knight-achievement-order-randomizer.scrbl" ())))
+(define scribblings '(("scribblings/hollow_knight_achievement_order_randomizer.scrbl" ())))

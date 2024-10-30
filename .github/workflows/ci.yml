@@ -21,9 +21,9 @@ jobs:
           distribution: full
           variant: ${{ matrix.racket-variant }}
           version: ${{ matrix.racket-version }}
-      - name: Installing hollow-knight-achievement-order-randomizer and its dependencies
-        run: raco pkg install --no-docs --auto --name hollow-knight-achievement-order-randomizer
-      - name: Compiling hollow-knight-achievement-order-randomizer and building its docs
-        run: raco setup --check-pkg-deps --unused-pkg-deps hollow-knight-achievement-order-randomizer
-      - name: Testing hollow-knight-achievement-order-randomizer
-        run: raco test -x -p hollow-knight-achievement-order-randomizer
+      - name: Installing hollow_knight_achievement_order_randomizer and its dependencies
+        run: raco pkg install --no-docs --auto --name hollow_knight_achievement_order_randomizer
+      - name: Compiling hollow_knight_achievement_order_randomizer and building its docs
+        run: raco setup --check-pkg-deps --unused-pkg-deps hollow_knight_achievement_order_randomizer
+      - name: Testing hollow_knight_achievement_order_randomizer
+        run: raco test -x -p hollow_knight_achievement_order_randomizer
