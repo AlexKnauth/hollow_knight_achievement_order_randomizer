@@ -29,8 +29,8 @@
 23. Ascension: Awakening
 24. Grubfriend
 25. Metamorphosis: Illumination + Obsession + Grubfriend
-26. Purity: Warrior + Conqueror // Hardlocks HappyCouple
-27. HappyCouple: Warrior + Conqueror // Hardlocks Purity
+26. Purity: Conqueror // Hardlocks HappyCouple
+27. HappyCouple: Conqueror // Hardlocks Purity
 28. Witness: Teacher
 29. Solace: Illumination
 30. Execution: TestOfResolve + ProofOfResolve
@@ -53,7 +53,7 @@
 47. SpeedCompletion: Completion
 48. SteelSoul: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
 49. SteelHeart: SteelSoul + Completion
-50. KeenHunter: Falsehood + Illumination
+50. KeenHunter: Falsehood + Illumination // TODO: achievements for required bosses
 51. TrueHunter: KeenHunter
 52. PassingOfTheAge: Charmed + Release + (TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid)
 53. Memory: Illumination + Honour
