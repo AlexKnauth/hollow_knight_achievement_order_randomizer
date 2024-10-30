@@ -6,8 +6,6 @@
 
 (define deps
   '("base"
-    "functional-lib"
-    "megaparsack"
     "rhombus-lib"))
 
 (define build-deps
