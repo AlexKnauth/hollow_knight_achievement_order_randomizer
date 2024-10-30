@@ -52,7 +52,7 @@
 46. Completion: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
 47. SpeedCompletion: Completion
 48. SteelSoul: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
-49. SteelHeart
+49. SteelHeart: SteelSoul + Completion
 50. KeenHunter: Falsehood + Illumination
 51. TrueHunter: KeenHunter
 52. PassingOfTheAge: Charmed + Release + (TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid)
@@ -66,4 +66,4 @@
 60. Focus: Charmed + ProofOfResolve + Illumination + Obsession
 61. SoulAndShade: Brotherhood + Inspiration + Focus
 62. EmbraceTheVoid: SoulAndShade
-63. PureCompletion: Masked + Enchanted + Worldsoul + Falsehood + Ascension + Metamorphosis + Teacher + Watcher + Beast + Fool + (Ritual || Banishment) + SoulAndShade
+63. PureCompletion: Masked + Enchanted + Worldsoul + Falsehood + Ascension + Metamorphosis + Teacher + Watcher + Beast + Fool + (Ritual || Banishment) + SoulAndShade + Completion
