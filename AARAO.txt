@@ -49,7 +49,7 @@
 43. Void: Awakening + Execution
 44. Speedrun1: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
 45. Speedrun2: Speedrun1
-46. Completion: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
+46. Completion: Enchanted + (TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid)
 47. SpeedCompletion: Completion
 48. SteelSoul: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
 49. SteelHeart: SteelSoul + Completion
@@ -66,4 +66,4 @@
 60. Focus: Charmed + ProofOfResolve + Illumination + Obsession
 61. SoulAndShade: Brotherhood + Inspiration + Focus
 62. EmbraceTheVoid: SoulAndShade
-63. PureCompletion: Masked + Enchanted + Worldsoul + Falsehood + Ascension + Metamorphosis + Teacher + Watcher + Beast + Fool + (Ritual || Banishment) + SoulAndShade + Completion
+63. PureCompletion: Masked + Worldsoul + Falsehood + Ascension + Metamorphosis + Teacher + Watcher + Beast + Fool + (Ritual || Banishment) + SoulAndShade + Completion
