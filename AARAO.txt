@@ -1,0 +1,69 @@
+/*
+ * Achievement order randomizer logic
+ *
+ * number. name: requirements
+ */
+
+1. Protected
+2. Masked: Protected + Charmed + (Release || SHADESKIP) + Attunement + Solace
+3. Charmed
+4. Enchanted: Charmed
+5. Blessed: Enchanted + Honour + Respect + Awakening + Metamorphosis + Execution
+6. Soulful
+7. Worldsoul: Soulful + Attunement
+8. Falsehood
+9. Strength: Falsehood
+10. TestOfResolve
+11. ProofOfResolve
+12. Illumination
+13. Mortality: Illumination
+14. Release
+15. Peace: Release
+16. Honour
+17. Respect
+18. Obsession
+19. Rivalry // Hardlocks Neglect
+20. Neglect // Hardlocks Rivalry and DarkRomance
+21. Attunement
+22. Awakening: Charmed + Attunement
+23. Ascension: Awakening
+24. Grubfriend
+25. Metamorphosis: Illumination + Obsession + Grubfriend
+26. Purity: Warrior + Conqueror // Hardlocks HappyCouple
+27. HappyCouple: Warrior + Conqueror // Hardlocks Purity
+28. Witness: Teacher
+29. Solace: Illumination
+30. Execution: TestOfResolve + ProofOfResolve
+31. Connection
+32. Hope: Connection // need to test this
+33. Teacher
+34. Watcher
+35. Beast
+36. Cartographer
+37. Warrior
+38. Conqueror: Warrior
+39. Fool: Warrior + Conqueror
+40. TheHollowKnight: Teacher + Watcher + Beast
+41. SealedSiblings: Teacher + Watcher + Beast + Void
+42. DreamNoMore: Teacher + Watcher + Beast + Void
+43. Void: Awakening + Execution
+44. Speedrun1: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
+45. Speedrun2: Speedrun1
+46. Completion
+47. SpeedCompletion
+48. SteelSoul: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
+49. SteelHeart
+50. KeenHunter: Falsehood + Illumination
+51. TrueHunter: KeenHunter
+52. PassingOfTheAge: Charmed + Release + (TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid)
+53. Memory: Illumination + Honour
+54. DarkRomance: Release + Rivalry // Hardlocks Neglect
+55. GrandPerformance: Charmed
+56. Ritual: GrandPerformance // Hardlocks Banishment
+57. Banishment: GrandPerformance // Hardlocks Ritual
+58. Brotherhood: TestOfResolve + Illumination + Honour
+59. Inspiration: Illumination + Release + Respect + Warrior
+60. Focus: Charmed + ProofOfResolve + Illumination + Obsession
+61. SoulAndShade: Brotherhood + Inspiration + Focus
+62. EmbraceTheVoid: SoulAndShade
+63. PureCompletion: Masked + Enchanted + Worldsoul + Falsehood + Ascension + Metamorphosis + Teacher + Watcher + Beast + Fool + (Ritual || Banishment) + SoulAndShade

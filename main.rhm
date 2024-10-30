@@ -1,0 +1,91 @@
+#lang rhombus/and_meta
+
+import:
+  rhombus/runtime_path
+  rhombus/shrubbery
+  lib("racket/base.rkt").#{open-input-file} as open_input_file
+
+runtime_path.def AARAO_txt: "AARAO.txt"
+
+def AARAO_in: open_input_file(AARAO_txt)
+
+def AARAO_shrb: shrubbery.read(AARAO_in)
+
+def init:
+  {
+    #'SHADESKIP: #true,
+  }
+
+syntax_class Num:
+  kind: ~term
+| '$n':
+    match_when: Syntax.unwrap(n) is_a Number
+
+syntax_class Name:
+  kind: ~term
+  fields: symbol
+| '$(id :: Identifier)':
+    field symbol: Syntax.unwrap(id)
+
+syntax_class RequirementsTerm:
+  fields: function
+  kind: ~term
+| '$(name :: Name)':
+    field function: fun(map): Map.get(map, name.symbol, #false)
+| '($(requirements :: Group))':
+    field function: requirements_group_function(requirements)
+
+syntax_class RequirementsGroup:
+  fields: function
+  kind: ~group
+| '$(a :: RequirementsTerm) $('+ $(b :: RequirementsTerm)') ...':
+    field function: fun(map): all(a.function(map), b.function(map), ...)
+| '$(a :: RequirementsTerm) $('|| $(b :: RequirementsTerm)') ...':
+    field function: fun(map): any(a.function(map), b.function(map), ...)
+
+fun requirements_group_function('$(requirements :: RequirementsGroup)'):
+  requirements.function
+
+syntax_class Entry:
+  kind: ~group
+  fields: symbol; function
+| '$(_ :: Num) $(name :: Name)':
+    field symbol: name.symbol
+    field function: fun(map): #true
+| '$(_ :: Num) $(name :: Name): $(requirements :: RequirementsGroup)':
+    field symbol: name.symbol
+    field function: requirements.function
+
+syntax_class Entries:
+  kind: ~multi
+  fields: map
+| '$(entry :: Entry); ...':
+    field map: { entry.symbol: entry.function, ... }
+
+def '$(entries :: Entries)': AARAO_shrb
+
+def AARAO_map: entries.map
+
+def AARAO_keys: AARAO_map.keys()
+
+fun next(progression :: Map, remaining :: List):
+  match remaining
+  | []: #false
+  | _:
+      let possible:
+        for List (x: remaining):
+          keep_when: AARAO_map[x](progression)
+          x
+      possible[math.random(possible.length())]
+
+fun loop(progression :: Map, remaining :: List, given :: List):
+  let n: next(progression, remaining)
+  cond
+  | n: loop(progression ++ {n: #true}, remaining.remove(n), given.add(n))
+  | ~else: given
+
+def AARAO: loop(init, AARAO_keys, [])
+
+for (A: AARAO):
+  println(A)
+  
