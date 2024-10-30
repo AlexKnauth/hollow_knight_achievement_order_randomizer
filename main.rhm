@@ -102,7 +102,6 @@ fun print_achievement_order(order :: List.of(Symbol)):
   for (a: order):
     println(a)
 
-#//
 module main:
   print_achievement_order(hollow_knight_achievement_order_randomizer())
 
