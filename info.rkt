@@ -9,11 +9,8 @@
     "rhombus-lib"))
 
 (define build-deps
-  '("racket-doc"
-    "rackunit-lib"
-    "rhombus"
-    "rhombus-scribble-lib"
-    "scribble-lib"))
+  '("rhombus"
+    "rhombus-scribble-lib"))
 
 (define pkg-desc "Generating lists of achievements in random order within logic")
 

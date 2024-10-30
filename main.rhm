@@ -1,5 +1,10 @@
 #lang rhombus/static/and_meta
 
+export:
+  hollow_knight_achievement_order_randomizer
+  is_achievement_order_in_logic
+  print_achievement_order
+
 import:
   rhombus/runtime_path
   rhombus/shrubbery
@@ -84,8 +89,50 @@ fun loop(progression :: Map, remaining :: List, given :: List):
   | n: loop(progression ++ {n: #true}, remaining.remove(n), given.add(n))
   | ~else: given
 
-def AARAO :: List: loop(init, AARAO_keys, [])
+fun hollow_knight_achievement_order_randomizer() :: List.of(Symbol):
+  loop(init, AARAO_keys, [])
 
-for (A: AARAO):
-  println(A)
-  
+fun is_achievement_order_in_logic(order :: List.of(Symbol)) :: Boolean:
+  for all (i: 0..order.length()):
+    let [prev, ...]: order.take(i)
+    let progression: init ++ { prev: #true, ... }
+    AARAO_map[order[i]](progression)
+
+fun print_achievement_order(order :: List.of(Symbol)):
+  for (a: order):
+    println(a)
+
+#//
+module main:
+  print_achievement_order(hollow_knight_achievement_order_randomizer())
+
+module test:
+  fun index_of(lst :: List, v) :: maybe(Int):
+    for values(_: #false) (e: lst, i: 0..):
+      keep_when: e == v
+      final_when: #true
+      i
+  check: index_of([#'a, #'b, #'c], #'b) ~is 1
+  check: index_of([#'a, #'b, #'c], #'d) ~is #false
+
+  check:
+    is_achievement_order_in_logic([#'TestOfResolve, #'ProofOfResolve, #'Execution])
+    ~is #true
+  check:
+    is_achievement_order_in_logic([#'ProofOfResolve, #'TestOfResolve, #'Execution])
+    ~is #true
+  check:
+    is_achievement_order_in_logic([#'ProofOfResolve, #'Execution, #'TestOfResolve])
+    ~is #false
+
+  for (_: 0..100):
+    use_dynamic
+    let order: hollow_knight_achievement_order_randomizer()
+    check: order.length() ~is 63
+    let hornet1: index_of(order, #'TestOfResolve)
+    let hornet2: index_of(order, #'ProofOfResolve)
+    let traitor_lord: index_of(order, #'Execution)
+    let radiance: index_of(order, #'DreamNoMore)
+    check: hornet1 < traitor_lord ~is #true
+    check: hornet2 < traitor_lord ~is #true
+    check: traitor_lord < radiance ~is #true
