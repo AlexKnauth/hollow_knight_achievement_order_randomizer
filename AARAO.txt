@@ -22,7 +22,7 @@
 16. Honour
 17. Respect
 18. Obsession
-19. Rivalry // Hardlocks Neglect
+19. Rivalry // Hardlocks Neglect, TODO: test Warrior
 20. Neglect // Hardlocks Rivalry and DarkRomance
 21. Attunement
 22. Awakening: Charmed + Attunement
@@ -35,22 +35,22 @@
 29. Solace: Illumination
 30. Execution: TestOfResolve + ProofOfResolve
 31. Connection
-32. Hope: Connection // need to test this
+32. Hope: Connection // TODO: need to test this
 33. Teacher
 34. Watcher
 35. Beast
 36. Cartographer
 37. Warrior
 38. Conqueror: Warrior
-39. Fool: Warrior + Conqueror
+39. Fool: Conqueror
 40. TheHollowKnight: Teacher + Watcher + Beast
 41. SealedSiblings: Teacher + Watcher + Beast + Void
 42. DreamNoMore: Teacher + Watcher + Beast + Void
 43. Void: Awakening + Execution
 44. Speedrun1: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
 45. Speedrun2: Speedrun1
-46. Completion
-47. SpeedCompletion
+46. Completion: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
+47. SpeedCompletion: Completion
 48. SteelSoul: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
 49. SteelHeart
 50. KeenHunter: Falsehood + Illumination
