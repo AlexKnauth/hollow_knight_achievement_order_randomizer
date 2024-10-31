@@ -37,7 +37,22 @@
                       || (Mortality + Strength + Memory)
                       || (Mortality + DarkRomance + Memory)
                       || (Strength + DarkRomance + Memory))
+/*
+ * 1100 essence available from no-cheevo dream warriors: 1300 gap
+ */
 23. Ascension: Awakening
+                 + (RANDOM_ESSENCE_DROPS
+                      || (TREES_AND_GHOSTS + Peace + ((Mortality + Strength)
+                                                        || (Mortality + DarkRomance)
+                                                        || (Mortality + Memory)
+                                                        || (Strength + DarkRomance)
+                                                        || (Strength + Memory)
+                                                        || (DarkRomance + Memory)))
+                      || ((TREES_AND_GHOSTS || Peace)
+                            + ((Mortality + Strength + DarkRomance)
+                                 || (Mortality + Strength + Memory)
+                                 || (Mortality + DarkRomance + Memory)
+                                 || (Strength + DarkRomance + Memory))))
 24. Grubfriend
 25. Metamorphosis: Illumination + Obsession + Grubfriend
 26. Purity: Grubfriend + Conqueror // Hardlocks HappyCouple
