@@ -19,6 +19,8 @@ def AARAO_shrb: shrubbery.read(AARAO_in)
 def init:
   {
     #'SHADESKIP: #true,
+    #'RANDOM_ESSENCE_DROPS: #false,
+    #'TREES_AND_GHOSTS: #true,
   }
 
 syntax_class Num:
