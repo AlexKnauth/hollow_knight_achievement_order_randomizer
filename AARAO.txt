@@ -53,7 +53,7 @@
 47. SpeedCompletion: Completion
 48. SteelSoul: TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid
 49. SteelHeart: SteelSoul + Completion
-50. KeenHunter: Falsehood + Respect + Illumination + Honour + Release + Obsession + Execution + Conqueror // TODO: test achievements for required bosses
+50. KeenHunter: Falsehood + Respect + Illumination + Honour + Release + Obsession + Execution + Conqueror + Awakening // TODO: test achievements for required bosses
 51. TrueHunter: KeenHunter
 52. PassingOfTheAge: Charmed + Release + (TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid)
 53. Memory: Illumination + Honour
