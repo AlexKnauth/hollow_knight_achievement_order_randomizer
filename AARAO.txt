@@ -40,8 +40,8 @@
 23. Ascension: Awakening
 24. Grubfriend
 25. Metamorphosis: Illumination + Obsession + Grubfriend
-26. Purity: Conqueror // Hardlocks HappyCouple
-27. HappyCouple: Conqueror // Hardlocks Purity
+26. Purity: Grubfriend + Conqueror // Hardlocks HappyCouple
+27. HappyCouple: Grubfriend + Conqueror // Hardlocks Purity
 28. Witness: Teacher
 29. Solace: Illumination
 30. Execution: TestOfResolve + ProofOfResolve
