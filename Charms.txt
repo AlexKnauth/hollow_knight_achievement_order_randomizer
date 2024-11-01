@@ -1,0 +1,16 @@
+/*
+ * Charm count logic
+ * Excluding requirements internally about charms: Charmed, Enchanted
+ *
+ * count name: requirements
+ */
+
+30 MaxCharmsNoOutsideCheevos
+3 DiveCharms: Illumination // Soul Eater, QuickSlash, Flukenest
+1 MarkOfPride: Respect
+1 DefendersCrest: Honour
+1 LifebloodCore: ProofOfResolve
+1 GrubberflysElegy: Metamorphosis
+1 SharpShadow: TestOfResolve + ProofOfResolve
+1 ShapeOfUnn: TestOfResolve
+1 Kingsoul: Execution + Awakening

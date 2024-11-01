@@ -1,0 +1,15 @@
+/*
+ * Essence ammount logic
+ *
+ * amount name: requirements
+ */
+
+2400 RandomEssenceDrops: RANDOM_ESSENCE_DROPS
+850 DreamWarriorsNoCheevos // Elder Hu, Galien, Gorb, Marmu, No Eyes, Xero
+506 TreesAndGhosts: TREES_AND_GHOSTS
+400 LostKinEssence: Peace
+300 FailedChampionEssence: Strength
+300 GreyPrinceZoteEssence: DarkRomance
+300 WhiteDefenderEssence: Memory
+300 SoulTyrantEssence: Mortality
+250 MarkothEssence: TestOfResolve + ProofOfResolve
