@@ -1,0 +1,29 @@
+#lang rhombus/static/and_meta
+
+export:
+  Num
+  Name
+  Entry
+
+syntax_class Num:
+  kind: ~term
+| '$n':
+    field number: Syntax.unwrap(n)
+    match_when: number is_a Number
+
+syntax_class Name:
+  kind: ~term
+  fields: symbol
+| '$(id :: Identifier)':
+    field symbol: Syntax.unwrap(id)
+
+syntax_class Entry:
+  kind: ~group
+  fields: number; symbol; requirements
+| '$(num :: Num) $(name :: Name)':
+    field number: num.number
+    field symbol: name.symbol
+    field requirements: '#true'
+| '$(num :: Num) $(name :: Name): $(requirements :: Group)':
+    field number: num.number
+    field symbol: name.symbol

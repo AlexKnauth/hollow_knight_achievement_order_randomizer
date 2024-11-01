@@ -9,12 +9,22 @@ import:
   rhombus/runtime_path
   rhombus/shrubbery
   lib("racket/base.rkt").#{open-input-file} as open_input_file
+  "entry.rhm" open
 
 runtime_path.def AARAO_txt: "AARAO.txt"
+runtime_path.def Charms_txt: "Charms.txt"
+runtime_path.def Completion_txt: "Completion.txt"
+runtime_path.def Essence_txt: "Essence.txt"
 
 def AARAO_in: open_input_file(AARAO_txt)
+def Charms_in: open_input_file(Charms_txt)
+def Completion_in: open_input_file(Completion_txt)
+def Essence_in: open_input_file(Essence_txt)
 
 def AARAO_shrb: shrubbery.read(AARAO_in)
+def Charms_shrb: shrubbery.read(Charms_in)
+def Completion_shrb: shrubbery.read(Completion_in)
+def Essence_shrb: shrubbery.read(Essence_in)
 
 def init:
   {
@@ -23,20 +33,11 @@ def init:
     #'TREES_AND_GHOSTS: #true,
   }
 
-syntax_class Num:
-  kind: ~term
-| '$n':
-    match_when: Syntax.unwrap(n) is_a Number
-
-syntax_class Name:
-  kind: ~term
-  fields: symbol
-| '$(id :: Identifier)':
-    field symbol: Syntax.unwrap(id)
-
 syntax_class RequirementsTerm:
   fields: function
   kind: ~term
+| '#true': field function: fun(_): #true
+| '#false': field function: fun(_): #false
 | '$(name :: Name)':
     field function: fun(map): Map.get(map, name.symbol, #false)
 | '($(requirements :: Group))':
@@ -53,25 +54,42 @@ syntax_class RequirementsGroup:
 fun requirements_group_function('$(requirements :: RequirementsGroup)'):
   requirements.function
 
-syntax_class Entry:
+syntax_class RequirementEntry:
   kind: ~group
   fields: symbol; function
-| '$(_ :: Num) $(name :: Name)':
-    field symbol: name.symbol
-    field function: fun(map): #true
-| '$(_ :: Num) $(name :: Name): $(requirements :: RequirementsGroup)':
-    field symbol: name.symbol
-    field function: requirements.function
+| '$(entry :: Entry)':
+    field symbol: entry.symbol
+    field function: requirements_group_function(entry.requirements)
 
-syntax_class Entries:
+syntax_class NumberEntry:
+  kind: ~group
+  fields: symbol; function
+| '$(entry :: Entry)':
+    field symbol: entry.symbol
+    def requirement_function: requirements_group_function(entry.requirements)
+    field function: fun(map): (requirement_function(map) && entry.number) || 0
+
+syntax_class RequirementEntries:
   kind: ~multi
   fields: map
-| '$(entry :: Entry); ...':
+| '$(entry :: RequirementEntry); ...':
     field map: { entry.symbol: entry.function, ... }
 
-def '$(entries :: Entries)': AARAO_shrb
+syntax_class NumberEntries:
+  kind: ~multi
+  fields: map
+| '$(entry :: NumberEntry); ...':
+    field map: { entry.symbol: entry.function, ... }
 
-def AARAO_map :: Map: entries.map
+def '$(AARAO_entries :: RequirementEntries)': AARAO_shrb
+def '$(Charms_entries :: NumberEntries)': Charms_shrb
+def '$(Completion_entries :: NumberEntries)': Completion_shrb
+def '$(Essence_entries :: NumberEntries)': Essence_shrb
+
+def AARAO_map :: Map: AARAO_entries.map
+def Charms_map :: Map: Charms_entries.map
+def Completion_map :: Map: Completion_entries.map
+def Essence_map :: Map: Essence_entries.map
 
 def AARAO_keys: AARAO_map.keys()
 
