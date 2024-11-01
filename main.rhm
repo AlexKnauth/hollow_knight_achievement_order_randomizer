@@ -251,6 +251,93 @@ module test:
                                    #'Awakening])
     ~is #true
 
+  check:
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'Enchanted,
+                                   #'Illumination,
+                                   #'Watcher,
+                                   #'Teacher,
+                                   #'Beast,
+                                   #'TheHollowKnight])
+    ~is #true
+  check:
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'Enchanted,
+                                   #'Illumination,
+                                   #'Watcher,
+                                   #'Teacher,
+                                   #'Beast,
+                                   #'TheHollowKnight,
+                                   #'Completion])
+    ~is #false
+  check:
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'TestOfResolve,
+                                   #'Enchanted,
+                                   #'Illumination,
+                                   #'Watcher,
+                                   #'ProofOfResolve,
+                                   #'Teacher,
+                                   #'Beast,
+                                   #'TheHollowKnight,
+                                   #'Completion])
+    ~is #false
+  check:
+    is_achievement_order_in_logic([#'Falsehood, // {28} +1 {29}
+                                   #'Charmed, // {29} +19 {48}
+                                   #'Enchanted, // {48} +11 {59}
+                                   #'TestOfResolve, // {59} +3+1 {63}
+                                   #'Respect, // {63} +1+1 {65}
+                                   #'Illumination, // {65} +4+3 {72}
+                                   #'Watcher, // {72} +1 {73}
+                                   #'Honour, // {73} +1+1 {75}
+                                   #'Release, // {75} +3 {78}
+                                   #'Peace,
+                                   #'Attunement,
+                                   #'Strength,
+                                   #'ProofOfResolve, // {78} +6+1+1+1 {87}
+                                   #'Mortality,
+                                   #'Grubfriend,
+                                   #'GrandPerformance, // {87} +1 {88}
+                                   #'Teacher, // {88} +1 {89}
+                                   #'Execution, // {89} +1 {90}
+                                   #'Beast, // {90} +1 {91}
+                                   #'Awakening, // {91} +1+1 {93}
+                                   #'Protected, // {93} +3 {96}
+                                   #'Warrior, // {96} +1 {97}
+                                   #'Conqueror, // {97} +1+1 {99}
+                                   #'TheHollowKnight,
+                                   #'Completion])
+    ~is #false
+  check:
+    is_achievement_order_in_logic([#'Falsehood, // {28} +1 {29}
+                                   #'Charmed, // {29} +19 {48}
+                                   #'Enchanted, // {48} +11 {59}
+                                   #'TestOfResolve, // {59} +3+1 {63}
+                                   #'Respect, // {63} +1+1 {65}
+                                   #'Illumination, // {65} +4+3 {72}
+                                   #'Watcher, // {72} +1 {73}
+                                   #'Honour, // {73} +1+1 {75}
+                                   #'Release, // {75} +3 {78}
+                                   #'Peace,
+                                   #'Attunement,
+                                   #'Strength,
+                                   #'ProofOfResolve, // {78} +6+1+1+1 {87}
+                                   #'Mortality,
+                                   #'Grubfriend,
+                                   #'GrandPerformance, // {87} +1 {88}
+                                   #'Teacher, // {88} +1 {89}
+                                   #'Execution, // {89} +1 {90}
+                                   #'Beast, // {90} +1 {91}
+                                   #'Banishment, // {91} +1 {92}
+                                   #'Awakening, // {92} +1+1 {94}
+                                   #'Protected, // {94} +3 {97}
+                                   #'Warrior, // {97} +1 {98}
+                                   #'Conqueror, // {98} +1+1 {100}
+                                   #'TheHollowKnight,
+                                   #'Completion])
+    ~is #true
+
   for (_: 0..100):
     use_dynamic
     let order: hollow_knight_achievement_order_randomizer()
