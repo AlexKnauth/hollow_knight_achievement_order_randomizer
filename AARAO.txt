@@ -61,7 +61,7 @@
 29. Solace: Illumination
 30. Execution: TestOfResolve + ProofOfResolve
 31. Connection
-32. Hope: Connection // TODO: need to test this
+32. Hope: Connection
 33. Teacher
 34. Watcher
 35. Beast
