@@ -22,7 +22,7 @@
 16. Honour
 17. Respect
 18. Obsession
-19. Rivalry // Hardlocks Neglect, TODO: test Warrior
+19. Rivalry // Hardlocks Neglect, does not require Warrior
 20. Neglect // Hardlocks Rivalry and DarkRomance
 21. Attunement
 /*
@@ -83,7 +83,7 @@
 51. TrueHunter: KeenHunter
 52. PassingOfTheAge: Charmed + Release + (TheHollowKnight || SealedSiblings || DreamNoMore || EmbraceTheVoid)
 53. Memory: Illumination + Honour
-54. DarkRomance: Release + Rivalry // Hardlocks Neglect
+54. DarkRomance: Release + Rivalry // Hardlocks Neglect, does not require Warrior
 55. GrandPerformance: Charmed
 56. Ritual: GrandPerformance // Hardlocks Banishment
 57. Banishment: GrandPerformance // Hardlocks Ritual
