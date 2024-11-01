@@ -25,34 +25,8 @@
 19. Rivalry // Hardlocks Neglect, does not require Warrior
 20. Neglect // Hardlocks Rivalry and DarkRomance
 21. Attunement
-/*
- * 1100 essence available from no-cheevo dream warriors: 700 gap
- * 1608 including 508 from trees and ghosts: 192 gap
- */
-22. Awakening: Charmed + Attunement
-                 + (RANDOM_ESSENCE_DROPS
-                      || (TREES_AND_GHOSTS + (Peace || Mortality || Strength || DarkRomance || Memory))
-                      || (Peace + (Mortality || Strength || DarkRomance || Memory))
-                      || (Mortality + Strength + DarkRomance)
-                      || (Mortality + Strength + Memory)
-                      || (Mortality + DarkRomance + Memory)
-                      || (Strength + DarkRomance + Memory))
-/*
- * 1100 essence available from no-cheevo dream warriors: 1300 gap
- */
-23. Ascension: Awakening
-                 + (RANDOM_ESSENCE_DROPS
-                      || (TREES_AND_GHOSTS + Peace + ((Mortality + Strength)
-                                                        || (Mortality + DarkRomance)
-                                                        || (Mortality + Memory)
-                                                        || (Strength + DarkRomance)
-                                                        || (Strength + Memory)
-                                                        || (DarkRomance + Memory)))
-                      || ((TREES_AND_GHOSTS || Peace)
-                            + ((Mortality + Strength + DarkRomance)
-                                 || (Mortality + Strength + Memory)
-                                 || (Mortality + DarkRomance + Memory)
-                                 || (Strength + DarkRomance + Memory))))
+22. Awakening: Charmed + Attunement + (1800 <= ESSENCE)
+23. Ascension: Awakening + (2400 <= ESSENCE)
 24. Grubfriend
 25. Metamorphosis: Illumination + Obsession + Grubfriend
 26. Purity: Grubfriend + Conqueror // Hardlocks HappyCouple

@@ -33,6 +33,12 @@ def init:
     #'TREES_AND_GHOSTS: #true,
   }
 
+syntax_class NumericTerm:
+  fields: function
+  kind: ~term
+| '$(num :: Num)': field function: fun(_): num.number
+| '$(name :: Name)': field function: fun(map): Map.get(map, name.symbol, 0)
+
 syntax_class RequirementsTerm:
   fields: function
   kind: ~term
@@ -50,6 +56,8 @@ syntax_class RequirementsGroup:
     field function: fun(map): all(a.function(map), b.function(map), ...)
 | '$(a :: RequirementsTerm) $('|| $(b :: RequirementsTerm)') ...':
     field function: fun(map): any(a.function(map), b.function(map), ...)
+| '$(x :: NumericTerm) <= $(y :: NumericTerm)':
+    field function: fun(map): x.function(map) .<= y.function(map)
 
 fun requirements_group_function('$(requirements :: RequirementsGroup)'):
   requirements.function
@@ -92,6 +100,43 @@ def Completion_map :: Map: Completion_entries.map
 def Essence_map :: Map: Essence_entries.map
 
 def AARAO_keys: AARAO_map.keys()
+def Charms_keys: Charms_map.keys()
+def Completion_keys: Completion_map.keys()
+def Essence_keys: Essence_map.keys()
+
+fun count_number_cap(keys :: List, map :: Map):
+  fun(progression :: Map, cap :: Int):
+    for values(n: 0) (k: keys):
+      let v: map[k](progression)
+      let nv: math.min(cap, n + v)
+      final_when: cap <= nv
+      nv
+
+fun count_charms(progression :: Map):
+  cond
+  | Map.get(progression, #'Enchanted, #false): count_charms_cap(progression, 40)
+  | Map.get(progression, #'Charmed, #false): count_charms_cap(progression, 19)
+  | ~else: 0
+
+def count_charms_cap: count_number_cap(Charms_keys, Charms_map)
+
+def count_noncharm_completion_cap: count_number_cap(Completion_keys, Completion_map)
+
+fun count_completion(progression :: Map):
+  count_charms(progression) + count_noncharm_completion_cap(progression, 112)
+
+def count_essence_cap: count_number_cap(Essence_keys, Essence_map)
+
+fun count_essence(progression :: Map):
+  cond
+  | Map.get(progression, #'Attunement, #false): count_essence_cap(progression, 2400)
+  | ~else: count_essence_cap(progression, 599)
+
+fun progression_numbers(progression :: Map) :: Map:
+  progression
+    ++ { #'CHARMS: count_charms(progression),
+         #'COMPLETION: count_completion(progression),
+         #'ESSENCE: count_essence(progression) }
 
 fun next(progression :: Map, remaining :: List):
   match remaining
@@ -104,6 +149,7 @@ fun next(progression :: Map, remaining :: List):
       possible[math.random(possible.length())]
 
 fun loop(progression :: Map, remaining :: List, given :: List):
+  let progression: progression_numbers(progression)
   let n: next(progression, remaining)
   cond
   | n: loop(progression ++ {n: #true}, remaining.remove(n), given.add(n))
@@ -115,7 +161,7 @@ fun hollow_knight_achievement_order_randomizer() :: List.of(Symbol):
 fun is_achievement_order_in_logic(order :: List.of(Symbol)) :: Boolean:
   for all (i: 0..order.length()):
     let [prev, ...]: order.take(i)
-    let progression: init ++ { prev: #true, ... }
+    let progression: progression_numbers(init ++ { prev: #true, ... })
     AARAO_map[order[i]](progression)
 
 fun print_achievement_order(order :: List.of(Symbol)):
@@ -143,6 +189,67 @@ module test:
   check:
     is_achievement_order_in_logic([#'ProofOfResolve, #'Execution, #'TestOfResolve])
     ~is #false
+
+  check:
+    // 850 + 506 = 1356
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'Attunement,
+                                   #'Awakening])
+    ~is #false
+  check:
+    // 850 + 250 + 506 = 1606
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'TestOfResolve,
+                                   #'ProofOfResolve,
+                                   #'Attunement,
+                                   #'Awakening])
+    ~is #false
+  check:
+    // 850 + 300 + 506 = 1656
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'Falsehood,
+                                   #'Strength,
+                                   #'Attunement,
+                                   #'Awakening])
+    ~is #false
+  check:
+    // 850 + 400 + 506 = 1756
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'Release,
+                                   #'Peace,
+                                   #'Attunement,
+                                   #'Awakening])
+    ~is #false
+  check:
+    // 850 + 400 + 300 + 506 = 2056
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'Release,
+                                   #'Peace,
+                                   #'Falsehood,
+                                   #'Strength,
+                                   #'Attunement,
+                                   #'Awakening])
+    ~is #true
+  check:
+    // 850 + 400 + 250 + 506 = 2006
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'TestOfResolve,
+                                   #'Release,
+                                   #'Peace,
+                                   #'ProofOfResolve,
+                                   #'Attunement,
+                                   #'Awakening])
+    ~is #true
+  check:
+    // 850 + 300 + 250 + 506 = 1906
+    is_achievement_order_in_logic([#'Charmed,
+                                   #'TestOfResolve,
+                                   #'Falsehood,
+                                   #'Strength,
+                                   #'ProofOfResolve,
+                                   #'Attunement,
+                                   #'Awakening])
+    ~is #true
 
   for (_: 0..100):
     use_dynamic
