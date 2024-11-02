@@ -8,20 +8,21 @@
 /*
  * Max% No Cheevos is 28%:
  * Brooding Mawlek, Gruz Mother, Nosk, Uumuu, Watcher Knights,
- * Dream Nail, Crystal Heart, Ismas's Tear, Mantis Claw,
- * Cyclone Slash, Dash Slash, Great Slash,
+ * Dream Nail, Crystal Heart, Ismas's Tear, Mantis Claw, // Ismas may require a fireball-acid skip
+ * Cyclone Slash, Dash Slash, Great Slash, // GreatSlash may require a cyclone-fireball skip
  * Sharpened Nail, Channelled Nail, Coiled Nail,
  * Howling Wraiths, Vengeful Spirit, Shade Soul,
  * Elder Hu, Galien, Gorb, Marmu, No Eyes, Xero,
  * Hive Knight
  */
-27 MaxNoCheevos
+25 MaxNoCheevos
 6 Hornet2KingsBrandAbyss: ProofOfResolve
 4 SoulMasterDDarkGodtuner: Illumination
 3 Hornet1MothwingCloak: TestOfResolve
 3 BrokenVesselMonarchWings: Release
 3 MasksOnlyProtected: Protected
 2 VesselsOnlySoulful: Soulful
+2 IsmasTear: Honour || (ACID_SKIPS + (TestOfResolve || FIREBALL_SKIPS))
 1 GreatSlash: TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)
 
 1 TheCollector: Obsession
