@@ -5,8 +5,9 @@
  * count name: requirements
  */
 
-30 MaxCharmsNoOutsideCheevos
+29 MaxCharmsNoOutsideCheevos
 3 DiveCharms: Illumination // Soul Eater, QuickSlash, Flukenest
+1 NailmastersGlory: TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)
 1 MarkOfPride: Respect
 1 DefendersCrest: Honour
 1 LifebloodCore: ProofOfResolve

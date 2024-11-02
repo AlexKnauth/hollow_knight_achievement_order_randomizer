@@ -15,13 +15,14 @@
  * Elder Hu, Galien, Gorb, Marmu, No Eyes, Xero,
  * Hive Knight
  */
-28 MaxNoCheevos
+27 MaxNoCheevos
 6 Hornet2KingsBrandAbyss: ProofOfResolve
 4 SoulMasterDDarkGodtuner: Illumination
 3 Hornet1MothwingCloak: TestOfResolve
 3 BrokenVesselMonarchWings: Release
 3 MasksOnlyProtected: Protected
 2 VesselsOnlySoulful: Soulful
+1 GreatSlash: TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)
 
 1 TheCollector: Obsession
 1 DungDefender: Honour
