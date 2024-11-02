@@ -36,7 +36,7 @@
 30. Execution: TestOfResolve + ProofOfResolve
 31. Connection
 32. Hope: Connection
-33. Teacher: Honour || (ACID_SKIPS + (TestOfResolve || FIREBALL_SKIPS))
+33. Teacher: (Honour || ACID_SKIPS) + (TestOfResolve || FIREBALL_SKIPS)
 34. Watcher
 35. Beast
 36. Cartographer

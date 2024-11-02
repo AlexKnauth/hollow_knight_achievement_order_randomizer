@@ -22,7 +22,7 @@
 3 BrokenVesselMonarchWings: Release
 3 MasksOnlyProtected: Protected
 2 VesselsOnlySoulful: Soulful
-3 IsmasUumuu: Honour || (ACID_SKIPS + (TestOfResolve || FIREBALL_SKIPS))
+3 IsmasUumuu: (Honour || ACID_SKIPS) + (TestOfResolve || FIREBALL_SKIPS)
 1 GreatSlash: TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)
 
 1 TheCollector: Obsession
