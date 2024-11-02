@@ -31,6 +31,9 @@ def init:
     #'SHADESKIP: #true,
     #'RANDOM_ESSENCE_DROPS: #false,
     #'TREES_AND_GHOSTS: #true,
+    #'CYCLONE_STALL_SKIPS: #false,
+    #'FIREBALL_SKIPS: #true,
+    #'SLOPEBALL_SKIPS: #true,
   }
 
 syntax_class NumericTerm:
@@ -336,6 +339,27 @@ module test:
                                    #'Conqueror, // {98} +1+1 {100}
                                    #'TheHollowKnight,
                                    #'Completion])
+    ~is #true
+
+  check:
+    is_achievement_order_in_logic([#'Grubfriend,
+                                   #'Warrior,
+                                   #'Conqueror,
+                                   #'HappyCouple])
+    ~is #false
+  check:
+    is_achievement_order_in_logic([#'Grubfriend,
+                                   #'Warrior,
+                                   #'Conqueror,
+                                   #'TestOfResolve,
+                                   #'HappyCouple])
+    ~is #true
+  check:
+    is_achievement_order_in_logic([#'Grubfriend,
+                                   #'Warrior,
+                                   #'Conqueror,
+                                   #'Release,
+                                   #'HappyCouple])
     ~is #true
 
   for (_: 0..100):
