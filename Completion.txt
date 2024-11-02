@@ -6,16 +6,20 @@
  */
 
 /*
- * Max% No Cheevos is 28%:
- * Brooding Mawlek, Gruz Mother, Nosk, Uumuu, Watcher Knights,
- * Dream Nail, Crystal Heart, Ismas's Tear, Mantis Claw, // Ismas may require a fireball-acid skip
- * Cyclone Slash, Dash Slash, Great Slash, // GreatSlash may require a cyclone-fireball skip
+ * Completion without leaving Crossroads/Greenpath/UpperGrounds:
+ * Brooding Mawlek, Gruz Mother, Dream Nail, Vengeful Spirit, No Eyes, Xero
+ */
+6 FunglessNoCheevos
+/*
+ * Completion added with Fungal and Claw available: 
+ * Watcher Knights,
+ * Mantis Claw, Cyclone Slash, Dash Slash,
  * Sharpened Nail, Channelled Nail, Coiled Nail,
- * Howling Wraiths, Vengeful Spirit, Shade Soul,
- * Elder Hu, Galien, Gorb, Marmu, No Eyes, Xero,
+ * Howling Wraiths, Shade Soul,
+ * Elder Hu, Galien, Gorb, Marmu,
  * Hive Knight
  */
-21 MaxNoCheevos
+15 FungfulNoCheevos: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 6 Hornet2KingsBrandAbyss: ProofOfResolve
 4 SoulMasterDDarkGodtuner: Illumination
 3 Hornet1MothwingCloak: TestOfResolve

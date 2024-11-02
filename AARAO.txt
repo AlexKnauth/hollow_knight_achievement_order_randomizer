@@ -7,27 +7,27 @@
 1. Protected
 2. Masked: Protected + Charmed + (Release || SHADESKIP) + Attunement + Solace
 3. Charmed
-4. Enchanted: Charmed
+4. Enchanted: Charmed + (TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS)
 5. Blessed: Enchanted + Honour + Respect + Awakening + Metamorphosis + Execution
-6. Soulful
+6. Soulful: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 7. Worldsoul: Soulful + Attunement
 8. Falsehood
-9. Strength: Falsehood
+9. Strength: Falsehood + (TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS)
 10. TestOfResolve
-11. ProofOfResolve
-12. Illumination
+11. ProofOfResolve: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
+12. Illumination: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 13. Mortality: Illumination
 14. Release: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 15. Peace: Release
-16. Honour
-17. Respect
-18. Obsession
-19. Rivalry // Hardlocks Neglect, does not require Warrior
-20. Neglect // Hardlocks Rivalry and DarkRomance
-21. Attunement
+16. Honour: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
+17. Respect: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
+18. Obsession: (Honour || ACID_SKIPS) + (TestOfResolve || Release || FIREBALL_SKIPS)
+19. Rivalry: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS // Hardlocks Neglect, does not require Warrior
+20. Neglect: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS // Hardlocks Rivalry and DarkRomance
+21. Attunement: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 22. Awakening: Charmed + Attunement + (1800 <= ESSENCE)
 23. Ascension: Awakening + (2400 <= ESSENCE)
-24. Grubfriend
+24. Grubfriend: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 25. Metamorphosis: Illumination + Obsession + Grubfriend
 26. Purity: Grubfriend + Conqueror // Hardlocks HappyCouple
 27. HappyCouple: Grubfriend + Conqueror + (TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)) // Hardlocks Purity
@@ -35,12 +35,12 @@
 29. Solace: Illumination
 30. Execution: TestOfResolve + ProofOfResolve
 31. Connection
-32. Hope: Connection
+32. Hope: Connection + (Release || SLOPEBALL_SKIPS)
 33. Teacher: (Honour || ACID_SKIPS) + (TestOfResolve || Release || FIREBALL_SKIPS)
-34. Watcher
-35. Beast
-36. Cartographer
-37. Warrior
+34. Watcher: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
+35. Beast: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
+36. Cartographer: (Honour || ACID_SKIPS) + (TestOfResolve || Release || FIREBALL_SKIPS)
+37. Warrior: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 38. Conqueror: Warrior
 39. Fool: Conqueror
 40. TheHollowKnight: Teacher + Watcher + Beast
@@ -58,7 +58,7 @@
 52. PassingOfTheAge: Charmed + Release + (TheHollowKnight || SealedSiblings || DreamNoMore || (Void + EmbraceTheVoid))
 53. Memory: Illumination + Honour
 54. DarkRomance: Release + Rivalry // Hardlocks Neglect, does not require Warrior
-55. GrandPerformance: Charmed
+55. GrandPerformance: Charmed + (TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS)
 56. Ritual: GrandPerformance // Hardlocks Banishment
 57. Banishment: GrandPerformance // Hardlocks Ritual
 58. Brotherhood: TestOfResolve + Illumination + Honour

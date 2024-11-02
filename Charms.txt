@@ -5,7 +5,21 @@
  * count name: requirements
  */
 
-29 MaxCharmsNoOutsideCheevos
+/*
+ * Charms without leaving Crossroads/Greenpath/UpperGrounds and without other achievements:
+ * Compass, Swarm, Stalwart, Catcher, Shaman,
+ * Steady, LongNail, Fury,
+ * Thorns, Baldur, QuickFocus, LifebloodHeart, Wielder, DreamShield
+ */
+14 CharmsFungless
+/*
+ * Charms added with Fungal and Claw available:
+ * Dashmaster, Sprintmaster, Grubsong,
+ * Heart, Greed, Strength, Twister, Heavy,
+ * GlowingWomb, DeepFocus, Jonis,
+ * Hiveblood, Spore, Weaversong, Grimmchild
+ */
+15 CharmsFungful: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 3 DiveCharms: Illumination // Soul Eater, QuickSlash, Flukenest
 1 NailmastersGlory: TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)
 1 MarkOfPride: Respect

@@ -5,7 +5,8 @@
  */
 
 2400 RandomEssenceDrops: RANDOM_ESSENCE_DROPS
-850 DreamWarriorsNoCheevos // Elder Hu, Galien, Gorb, Marmu, No Eyes, Xero
+550 DreamWarriorsFungful: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS // Elder Hu, Galien, Gorb, Marmu
+300 DreamWarriorsFungless // No Eyes, Xero
 506 TreesAndGhosts: TREES_AND_GHOSTS
 400 LostKinEssence: Peace
 300 FailedChampionEssence: Strength
