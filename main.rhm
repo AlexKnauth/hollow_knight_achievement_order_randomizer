@@ -11,6 +11,11 @@ import:
   lib("racket/base.rkt").#{open-input-file} as open_input_file
   "entry.rhm" open
 
+fun index_of(lst :: List, v) :: maybe(Int):
+  for any (e: lst, i: 0..):
+    keep_when: e == v
+    i
+
 runtime_path.def AARAO_txt: "AARAO.txt"
 runtime_path.def Charms_txt: "Charms.txt"
 runtime_path.def Completion_txt: "Completion.txt"
@@ -26,15 +31,37 @@ def Charms_shrb: shrubbery.read(Charms_in)
 def Completion_shrb: shrubbery.read(Completion_in)
 def Essence_shrb: shrubbery.read(Essence_in)
 
-def init:
+enum Difficulty:
+  Beginner
+  Intermediate
+  Advanced
+  Expert
+  Fearless
+  Foolish
+
+def Difficulty.default: Difficulty.Advanced
+
+def Difficulty.list:
+  [Difficulty.Beginner,
+   Difficulty.Intermediate,
+   Difficulty.Advanced,
+   Difficulty.Expert,
+   Difficulty.Fearless,
+   Difficulty.Foolish]
+
+fun difficulty_int(difficulty :: Difficulty) :: Int:
+  index_of(Difficulty.list, difficulty)
+
+fun init(~difficulty: difficulty :: Difficulty = Difficulty.default) :: Map:
+  let di: difficulty_int(difficulty)
   {
-    #'SHADESKIP: #true,
-    #'RANDOM_ESSENCE_DROPS: #false,
-    #'TREES_AND_GHOSTS: #true,
-    #'CYCLONE_STALL_SKIPS: #false,
-    #'FIREBALL_SKIPS: #true,
-    #'SLOPEBALL_SKIPS: #true,
-    #'ACID_SKIPS: #true,
+    #'SHADESKIP: difficulty_int(Difficulty.Intermediate) <= di,
+    #'ACID_SKIPS: difficulty_int(Difficulty.Intermediate) <= di,
+    #'SLOPEBALL_SKIPS: difficulty_int(Difficulty.Intermediate) <= di,
+    #'FIREBALL_SKIPS: difficulty_int(Difficulty.Advanced) <= di,
+    #'TREES_AND_GHOSTS: difficulty_int(Difficulty.Expert) <= di,
+    #'CYCLONE_STALL_SKIPS: difficulty_int(Difficulty.Fearless) <= di,
+    #'RANDOM_ESSENCE_DROPS: difficulty_int(Difficulty.Foolish) <= di,
   }
 
 syntax_class NumericTerm:
@@ -159,28 +186,34 @@ fun loop(progression :: Map, remaining :: List, given :: List):
   | n: loop(progression ++ {n: #true}, remaining.remove(n), given.add(n))
   | ~else: given
 
-fun hollow_knight_achievement_order_randomizer() :: List.of(Symbol):
-  loop(init, AARAO_keys, [])
+fun hollow_knight_achievement_order_randomizer(
+  ~difficulty: difficulty :: Difficulty = Difficulty.default,
+) :: List.of(Symbol):
+  loop(init(~difficulty), AARAO_keys, [])
 
-fun is_achievement_order_in_logic(order :: List.of(Symbol)) :: Boolean:
+fun is_achievement_order_in_logic(
+  order :: List.of(Symbol),
+  ~difficulty: difficulty :: Difficulty = Difficulty.default,
+) :: Boolean:
   for all (i: 0..order.length()):
     let [prev, ...]: order.take(i)
-    let progression: progression_numbers(init ++ { prev: #true, ... })
+    let progression: progression_numbers(init(~difficulty) ++ { prev: #true, ... })
     AARAO_map[order[i]](progression)
+
+fun achievement_order_difficulty(order :: List.of(Symbol)) :: maybe(Difficulty):
+  for any (difficulty: Difficulty.list):
+    is_achievement_order_in_logic(order, ~difficulty) && difficulty
 
 fun print_achievement_order(order :: List.of(Symbol)):
   for (a: order):
     println(a)
 
 module main:
-  print_achievement_order(hollow_knight_achievement_order_randomizer())
+  let order: hollow_knight_achievement_order_randomizer()
+  print_achievement_order(order)
+  println("Difficulty:", achievement_order_difficulty(order))
 
 module test:
-  fun index_of(lst :: List, v) :: maybe(Int):
-    for values(_: #false) (e: lst, i: 0..):
-      keep_when: e == v
-      final_when: #true
-      i
   check: index_of([#'a, #'b, #'c], #'b) ~is 1
   check: index_of([#'a, #'b, #'c], #'d) ~is #false
 
@@ -196,13 +229,15 @@ module test:
 
   check:
     // 850 + 506 = 1356
-    is_achievement_order_in_logic([#'Charmed,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+                                  [#'Charmed,
                                    #'Attunement,
                                    #'Awakening])
     ~is #false
   check:
     // 850 + 250 + 506 = 1606
-    is_achievement_order_in_logic([#'Charmed,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+                                  [#'Charmed,
                                    #'TestOfResolve,
                                    #'ProofOfResolve,
                                    #'Attunement,
@@ -210,7 +245,8 @@ module test:
     ~is #false
   check:
     // 850 + 300 + 506 = 1656
-    is_achievement_order_in_logic([#'Charmed,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+                                  [#'Charmed,
                                    #'Falsehood,
                                    #'Strength,
                                    #'Attunement,
@@ -218,7 +254,8 @@ module test:
     ~is #false
   check:
     // 850 + 400 + 506 = 1756
-    is_achievement_order_in_logic([#'Charmed,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+                                  [#'Charmed,
                                    #'Release,
                                    #'Peace,
                                    #'Attunement,
@@ -226,7 +263,8 @@ module test:
     ~is #false
   check:
     // 850 + 400 + 300 + 506 = 2056
-    is_achievement_order_in_logic([#'Charmed,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+                                  [#'Charmed,
                                    #'Release,
                                    #'Peace,
                                    #'Falsehood,
@@ -236,7 +274,8 @@ module test:
     ~is #true
   check:
     // 850 + 400 + 250 + 506 = 2006
-    is_achievement_order_in_logic([#'Charmed,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+                                  [#'Charmed,
                                    #'TestOfResolve,
                                    #'Release,
                                    #'Peace,
@@ -246,7 +285,8 @@ module test:
     ~is #true
   check:
     // 850 + 300 + 250 + 506 = 1906
-    is_achievement_order_in_logic([#'Charmed,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+                                  [#'Charmed,
                                    #'TestOfResolve,
                                    #'Falsehood,
                                    #'Strength,
@@ -254,6 +294,35 @@ module test:
                                    #'Attunement,
                                    #'Awakening])
     ~is #true
+  check:
+    achievement_order_difficulty([#'Charmed,
+                                  #'TestOfResolve,
+                                  #'ProofOfResolve,
+                                  #'Attunement,
+                                  #'Awakening])
+    ~is Difficulty.Foolish
+  check:
+    // 850 + 300 + 250 + 506 = 1906
+    achievement_order_difficulty([#'Falsehood,
+                                  #'Charmed,
+                                  #'TestOfResolve,
+                                  #'Strength,
+                                  #'ProofOfResolve,
+                                  #'Attunement,
+                                  #'Awakening])
+    ~is Difficulty.Expert
+  check:
+    // 850 + 400 + 300 + 250 = 1800
+    achievement_order_difficulty([#'Falsehood,
+                                  #'Charmed,
+                                  #'TestOfResolve,
+                                  #'Release,
+                                  #'Peace,
+                                  #'Strength,
+                                  #'ProofOfResolve,
+                                  #'Attunement,
+                                  #'Awakening])
+    ~is Difficulty.Beginner
 
   check:
     is_achievement_order_in_logic([#'Charmed,
@@ -362,6 +431,34 @@ module test:
                                    #'Release,
                                    #'HappyCouple])
     ~is #true
+  check:
+    achievement_order_difficulty([#'Grubfriend,
+                                  #'Warrior,
+                                  #'Conqueror,
+                                  #'HappyCouple])
+    ~is Difficulty.Fearless
+  check:
+    achievement_order_difficulty([#'Grubfriend,
+                                  #'Teacher,
+                                  #'TestOfResolve,
+                                  #'Warrior,
+                                  #'Conqueror,
+                                  #'HappyCouple])
+    ~is Difficulty.Advanced
+  check:
+    achievement_order_difficulty([#'Grubfriend,
+                                  #'TestOfResolve,
+                                  #'Warrior,
+                                  #'Conqueror,
+                                  #'HappyCouple])
+    ~is Difficulty.Intermediate
+  check:
+    achievement_order_difficulty([#'TestOfResolve,
+                                  #'Grubfriend,
+                                  #'Warrior,
+                                  #'Conqueror,
+                                  #'HappyCouple])
+    ~is Difficulty.Beginner
 
   for (_: 0..100):
     use_dynamic
