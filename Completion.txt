@@ -15,14 +15,16 @@
  * Elder Hu, Galien, Gorb, Marmu, No Eyes, Xero,
  * Hive Knight
  */
-24 MaxNoCheevos
+21 MaxNoCheevos
 6 Hornet2KingsBrandAbyss: ProofOfResolve
 4 SoulMasterDDarkGodtuner: Illumination
 3 Hornet1MothwingCloak: TestOfResolve
 3 BrokenVesselMonarchWings: Release
 3 MasksOnlyProtected: Protected
 2 VesselsOnlySoulful: Soulful
-3 IsmasUumuu: (Honour || ACID_SKIPS) + (TestOfResolve || FIREBALL_SKIPS)
+3 IsmasUumuu: (Honour || ACID_SKIPS) + (TestOfResolve || Release || FIREBALL_SKIPS)
+2 CrystalHeart: TestOfResolve || Release || FIREBALL_SKIPS
+1 Nosk: TestOfResolve || Release || FIREBALL_SKIPS || SHADESKIP
 1 GreatSlash: TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)
 
 1 TheCollector: Obsession
@@ -44,7 +46,7 @@
 
 1 MaskMasked: Masked
 
-1 PureNail: Grubfriend + Conqueror
+1 PureNail: Grubfriend + Conqueror + (TestOfResolve || Release || FIREBALL_SKIPS || SHADESKIP)
 
 1 VesselWorldsoul: Worldsoul
 
