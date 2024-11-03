@@ -5,6 +5,7 @@ import:
   rhombus/rx open
   lib("racket/base.rkt").#{random-seed} as random_seed
   "order.rhm" open
+  "util/math.rhm" open
 
 fun difficulty_label(difficulty :: Difficulty) :: gui.LabelString:
   to_string(difficulty)
@@ -63,6 +64,9 @@ def difficulty_panel:
 def seed_max_digits: to_string(2**31).length()
 def seed_min_width: estimate_width(seed_max_digits)
 
+def total_min_width:
+  round_up_multiple(40 + difficulty_min_width + seed_min_width, 10)
+
 def seed_string_obs :: gui.Obs.of(String):
   gui.Obs(to_string(math.random(2**31)))
 
@@ -103,12 +107,13 @@ def settings_panel:
   gui.HPanel(~stretch: [#false, #false], difficulty_panel, seed_panel)
 
 fun begin_randomization():
-  let seed: seed_string_to_int(seed_string_obs.value)
-  println("Seed:", seed)
-  random_seed(seed)
-  print_achievement_order_difficulty(
-    hollow_knight_achievement_order_randomizer(
-      ~difficulty: difficulty_obs.value))
+  random_seed(seed_string_to_int(seed_string_obs.value))
+  let order:
+    hollow_knight_achievement_order_randomizer(~difficulty: difficulty_obs.value)
+  let difficulty: achievement_order_difficulty(order)
+  for (o: order_obs, a: order):
+    o.value := to_string(a)
+  order_difficulty_obs.value := @str{Difficulty: @difficulty_label(difficulty)}
 
 def begin_randomization_button:
   gui.Button(
@@ -117,12 +122,35 @@ def begin_randomization_button:
     ~stretch: [#false, #false],
   )
 
+def order_obs :: List.of(gui.Obs.of(gui.LabelString)):
+  for List (i: 0..63):
+    gui.Obs("")
+
+def order_difficulty_obs :: gui.Obs.of(gui.LabelString):
+  gui.Obs("")
+
+def order_labels :: List.of(gui.Label):
+  for List (o: order_obs):
+    gui.Label(o)
+
+def order_vscroll_panel:
+  gui.VPanel(
+    ~styles: [gui.VPanel.Style.vscroll],
+    ~alignment: [#'left, #'top],
+    & order_labels,
+  )
+
+def order_difficulty_label:
+  gui.Label(order_difficulty_obs)
+
 def window:
   gui.Window(
     ~title: "Hollow Knight Achievement Order Randomizer",
-    ~min_size: [720, 720],
+    ~min_size: [total_min_width, 720],
     settings_panel,
     begin_randomization_button,
+    order_vscroll_panel,
+    order_difficulty_label,
   )
 
 fun main():
