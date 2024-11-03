@@ -2,6 +2,7 @@
 
 export:
   Difficulty
+  difficulty_list
   hollow_knight_achievement_order_randomizer
   is_achievement_order_in_logic
   achievement_order_difficulty
@@ -40,7 +41,7 @@ enum Difficulty:
 
 def Difficulty.default: Difficulty.Advanced
 
-def Difficulty.list:
+def difficulty_list :: List.of(Difficulty):
   [Difficulty.Beginner,
    Difficulty.Intermediate,
    Difficulty.Advanced,
@@ -49,7 +50,7 @@ def Difficulty.list:
    Difficulty.Foolish]
 
 fun difficulty_int(difficulty :: Difficulty) :: Int:
-  index_of(Difficulty.list, difficulty)
+  index_of(difficulty_list, difficulty)
 
 fun init(~difficulty: difficulty :: Difficulty = Difficulty.default) :: Map:
   let di: difficulty_int(difficulty)
@@ -200,7 +201,7 @@ fun is_achievement_order_in_logic(
     AARAO_map[order[i]](progression)
 
 fun achievement_order_difficulty(order :: List.of(Symbol)) :: maybe(Difficulty):
-  for any (difficulty: Difficulty.list):
+  for any (difficulty: difficulty_list):
     is_achievement_order_in_logic(order, ~difficulty) && difficulty
 
 fun print_achievement_order(order :: List.of(Symbol)):
