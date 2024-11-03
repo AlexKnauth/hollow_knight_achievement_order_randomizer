@@ -1,0 +1,69 @@
+#lang rhombus/static/and_meta
+
+import:
+  gui
+  "order.rhm" open
+
+fun difficulty_label(difficulty :: Difficulty) :: gui.LabelString:
+  to_string(difficulty)
+
+fun difficulty_description(difficulty :: Difficulty) :: gui.LabelString:
+  match difficulty
+  | Difficulty.Beginner:
+      "Minimal skips. Still All Achievements."
+  | Difficulty.Intermediate:
+      "Shadeskips, Acid skips, and Slopeballs."
+  | Difficulty.Advanced:
+      "Intermediate + Fireball skips."
+  | Difficulty.Expert:
+      "Advanced + Trees and Ghosts."
+  | Difficulty.Fearless:
+      "Expert + Cyclone-stall skips."
+  | Difficulty.Foolish:
+      "Fearless + Random essence drops."
+
+def difficulty_min_width :: gui.SpacingInteger:
+  def max_len:
+    for values(n: 0) (difficulty: difficulty_list):
+      math.max(n,
+               difficulty_label(difficulty).length(),
+               difficulty_description(difficulty).length())
+  math.exact(math.ceiling(0.55 * gui.Label.normal_control_font.size * max_len))
+
+def difficulty_obs :: gui.Obs.of(Difficulty):
+  gui.Obs(Difficulty.default, ~name: "Difficulty")
+
+def difficulty_choice:
+  gui.Choice(
+    difficulty_list,
+    ~selection: difficulty_obs,
+    ~choice_to_label: difficulty_label,
+  )
+
+def difficulty_description_obs :: gui.Obs.of(gui.LabelString):
+  difficulty_obs.map(difficulty_description)
+
+def difficulty_description_label:
+  gui.Label(difficulty_description_obs)
+
+def difficulty_panel:
+  gui.GroupPanel(
+    "Difficulty",
+    ~min_size: [difficulty_min_width, #false],
+    ~stretch: [#false, #false],
+    difficulty_choice,
+    difficulty_description_label,
+  )
+
+def window:
+  gui.Window(
+    ~title: "Hollow Knight Achievement Order Randomizer",
+    ~min_size: [720, 720],
+    difficulty_panel,
+  )
+
+fun main():
+  gui.render(window)
+  #void
+
+// main()
