@@ -4,6 +4,7 @@ import:
   gui
   rhombus/rx open
   lib("racket/base.rkt").#{random-seed} as random_seed
+  lib("net/sendurl.rkt").#{send-url} as send_url
   "order.rhm" open
   "util/math.rhm" open
 
@@ -106,14 +107,14 @@ def seed_panel:
 def settings_panel:
   gui.HPanel(~stretch: [#false, #false], difficulty_panel, seed_panel)
 
+def order_obs :: gui.Obs.of(List.of(Symbol)):
+  gui.Obs([])
+
 fun begin_randomization():
   random_seed(seed_string_to_int(seed_string_obs.value))
   let order:
     hollow_knight_achievement_order_randomizer(~difficulty: difficulty_obs.value)
-  let difficulty: achievement_order_difficulty(order)
-  for (o: order_obs, a: order):
-    o.value := to_string(a)
-  order_difficulty_obs.value := @str{Difficulty: @difficulty_label(difficulty)}
+  order_obs.value := order
 
 def begin_randomization_button:
   gui.Button(
@@ -122,16 +123,13 @@ def begin_randomization_button:
     ~stretch: [#false, #false],
   )
 
-def order_obs :: List.of(gui.Obs.of(gui.LabelString)):
-  for List (i: 0..63):
-    gui.Obs("")
-
-def order_difficulty_obs :: gui.Obs.of(gui.LabelString):
-  gui.Obs("")
-
 def order_labels :: List.of(gui.Label):
-  for List (o: order_obs):
-    gui.Label(o)
+  for List (i: 0..63):
+    fun order_i(o :: List.of(Symbol)):
+      cond
+      | i < o.length(): to_string(o[i])
+      | ~else: ""
+    gui.Label(order_obs.map(order_i))
 
 def order_vscroll_panel:
   gui.VPanel(
@@ -141,7 +139,28 @@ def order_vscroll_panel:
   )
 
 def order_difficulty_label:
-  gui.Label(order_difficulty_obs)
+  fun order_d(o :: List.of(Symbol)):
+    cond
+    | 0 < o.length():
+        let d: achievement_order_difficulty(o)
+        @str{Difficulty: @difficulty_label(d)}
+    | ~else: ""
+  gui.Label(order_obs.map(order_d))
+
+fun open_hksm():
+  let config: #false
+  let url:
+    cond
+    | config: @str{https://hksplitmaker.com/?config=@config}
+    | config: "https://hksplitmaker.com"
+  send_url(url)
+
+def open_hksm_button:
+  gui.Button(
+    "Open HK Split Maker",
+    ~action: open_hksm,
+    ~stretch: [#false, #false],
+  )
 
 def window:
   gui.Window(
@@ -151,6 +170,7 @@ def window:
     begin_randomization_button,
     order_vscroll_panel,
     order_difficulty_label,
+    open_hksm_button,
   )
 
 fun main():
