@@ -1,0 +1,15 @@
+#lang rhombus/static
+
+export:
+  index_of
+
+fun index_of(lst :: List, v) :: maybe(Int):
+  for any (e: lst, i: 0..):
+    keep_when: e == v
+    i
+
+module test:
+  check: index_of([#'a, #'b, #'c], #'a) ~is 0
+  check: index_of([#'a, #'b, #'c], #'b) ~is 1
+  check: index_of([#'a, #'b, #'c], #'c) ~is 2
+  check: index_of([#'a, #'b, #'c], #'d) ~is #false

@@ -10,11 +10,7 @@ import:
   rhombus/shrubbery
   lib("racket/base.rkt").#{open-input-file} as open_input_file
   "entry.rhm" open
-
-fun index_of(lst :: List, v) :: maybe(Int):
-  for any (e: lst, i: 0..):
-    keep_when: e == v
-    i
+  "util/list.rhm" open
 
 runtime_path.def AARAO_txt: "AARAO.txt"
 runtime_path.def Charms_txt: "Charms.txt"
@@ -214,9 +210,6 @@ module main:
   println("Difficulty:", achievement_order_difficulty(order))
 
 module test:
-  check: index_of([#'a, #'b, #'c], #'b) ~is 1
-  check: index_of([#'a, #'b, #'c], #'d) ~is #false
-
   check:
     is_achievement_order_in_logic([#'TestOfResolve, #'ProofOfResolve, #'Execution])
     ~is #true
