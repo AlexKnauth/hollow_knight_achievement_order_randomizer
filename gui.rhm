@@ -2,6 +2,8 @@
 
 import:
   gui
+  rhombus/rx open
+  lib("racket/base.rkt").#{random-seed} as random_seed
   "order.rhm" open
 
 fun difficulty_label(difficulty :: Difficulty) :: gui.LabelString:
@@ -22,13 +24,16 @@ fun difficulty_description(difficulty :: Difficulty) :: gui.LabelString:
   | Difficulty.Foolish:
       "Fearless + Random essence drops."
 
+fun estimate_width(n :: Int) :: gui.SpacingInteger:
+  math.exact(math.ceiling(0.55 * gui.Label.normal_control_font.size * n))
+
 def difficulty_min_width :: gui.SpacingInteger:
   def max_len:
     for values(n: 0) (difficulty: difficulty_list):
       math.max(n,
                difficulty_label(difficulty).length(),
                difficulty_description(difficulty).length())
-  math.exact(math.ceiling(0.55 * gui.Label.normal_control_font.size * max_len))
+  estimate_width(max_len)
 
 def difficulty_obs :: gui.Obs.of(Difficulty):
   gui.Obs(Difficulty.default, ~name: "Difficulty")
@@ -55,11 +60,69 @@ def difficulty_panel:
     difficulty_description_label,
   )
 
+def seed_max_digits: to_string(2**31).length()
+def seed_min_width: estimate_width(seed_max_digits)
+
+def seed_string_obs :: gui.Obs.of(String):
+  gui.Obs(to_string(math.random(2**31)))
+
+fun seed_action(_, s :: ReadableString):
+  let n :: String: rx'[!digit]'.replace_all(to_string(s), "")
+  seed_string_obs.value := n.substring(0, math.min(seed_max_digits, n.length()))
+
+def seed_input:
+  gui.Input(
+    seed_string_obs,
+    ~action: seed_action,
+    ~is_equal_value: (_ === _),
+  )
+
+fun seed_string_to_int(s :: String) :: Int:
+  (String.to_int(s) || 0) mod (2**31)
+
+fun seed_random():
+  seed_string_obs.value := to_string(math.random(2**31))
+
+def seed_random_button:
+  gui.Button(
+    "Random",
+    ~action: seed_random,
+    ~stretch: [#false, #false],
+  )
+
+def seed_panel:
+  gui.GroupPanel(
+    "Seed",
+    ~min_size: [seed_min_width, #false],
+    ~stretch: [#false, #false],
+    seed_input,
+    seed_random_button,
+  )
+
+def settings_panel:
+  gui.HPanel(~stretch: [#false, #false], difficulty_panel, seed_panel)
+
+fun begin_randomization():
+  let seed: seed_string_to_int(seed_string_obs.value)
+  println("Seed:", seed)
+  random_seed(seed)
+  print_achievement_order_difficulty(
+    hollow_knight_achievement_order_randomizer(
+      ~difficulty: difficulty_obs.value))
+
+def begin_randomization_button:
+  gui.Button(
+    "Begin Randomization",
+    ~action: begin_randomization,
+    ~stretch: [#false, #false],
+  )
+
 def window:
   gui.Window(
     ~title: "Hollow Knight Achievement Order Randomizer",
     ~min_size: [720, 720],
-    difficulty_panel,
+    settings_panel,
+    begin_randomization_button,
   )
 
 fun main():
