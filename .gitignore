@@ -6,6 +6,7 @@ compiled/
 /doc/
 /out/
 /*.exe
+/*.app
 
 # Editor-generated files
 *~
