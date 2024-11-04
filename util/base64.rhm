@@ -1,0 +1,24 @@
+#lang rhombus/static/and_meta
+
+export:
+  btoa
+  atob
+
+import:
+  lib("net/base64.rkt") open:
+    rename:
+      #{base64-encode} as base64_encode
+      #{base64-decode} as base64_decode
+
+fun btoa(s :: String) :: String:
+  Bytes.utf8_string(base64_encode(String.utf8_bytes(s)))
+
+fun atob(s :: String) :: String:
+  Bytes.utf8_string(base64_decode(String.utf8_bytes(s)))
+
+module test:
+  check: atob(btoa("apple")) ~is "apple"
+  check: atob(btoa("Hello, world")) ~is "Hello, world"
+  check: atob(btoa("a")) ~is "a"
+  check: atob(btoa("✓")) ~is "✓"
+

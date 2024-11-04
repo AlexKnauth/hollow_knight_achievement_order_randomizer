@@ -1,0 +1,92 @@
+#lang rhombus/static/and_meta
+
+export:
+  order_config
+
+import:
+  "util/clipboard.rkt" open
+  "util/json.rhm" open
+
+fun achievement_autosplit(achievement :: Symbol) :: String:
+  match achievement
+  | #'Protected: "Mask1"
+  | #'Masked: "Mask4"
+  | #'Blessed: "SalubrasBlessing"
+  | #'Soulful: "Vessel1"
+  | #'Worldsoul: "Vessel3"
+  | #'Falsehood: "FalseKnight"
+  | #'Strength: "FailedKnight"
+  | #'TestOfResolve: "Hornet1"
+  | #'ProofOfResolve: "Hornet2"
+  | #'Illumination: "SoulMaster"
+  | #'Mortality: "SoulTyrant"
+  | #'Release: "BrokenVessel"
+  | #'Peace: "LostKin"
+  | #'Honour: "DungDefender"
+  | #'Respect: "MantisLords"
+  | #'Obsession: "Collector"
+  | #'Rivalry: "ZoteKilled"
+  | #'Attunement: "Essence600"
+  | #'Awakening: "DreamNail2"
+  | #'Ascension: "SeerDeparts"
+  | #'Grubfriend: "Grub23"
+  | #'Metamorphosis: "Grub46"
+  | #'Purity: "NailsmithKilled"
+  | #'HappyCouple: "HappyCouplePlayerDataEvent"
+  | #'Solace: "FlowerRewardGiven" // TODO: test autosplit vs achievement
+  | #'Execution: "TraitorLord"
+  | #'Hope: "StagnestStation" // TODO: test autosplit vs achievement
+  | #'Teacher: "Monomon"
+  | #'Watcher: "Lurien"
+  | #'Beast: "Hegemol"
+  | #'Warrior: "ColosseumBronze"
+  | #'Conqueror: "ColosseumSilver"
+  | #'Fool: "ColosseumGold"
+  | #'TheHollowKnight: "EndingSplit"
+  | #'SealedSiblings: "EndingSplit"
+  | #'DreamNoMore: "EndingSplit"
+  | #'Void: "VoidHeart"
+  | #'Speedrun1: "EndingSplit"
+  | #'Speedrun2: "EndingSplit"
+  | #'Completion: "EndingSplit"
+  | #'SpeedCompletion: "EndingSplit"
+  | #'SteelSoul: "EndingSplit"
+  | #'SteelHeart: "EndingSplit"
+  | #'TrueHunter: "HuntersMark"
+  | #'PassingOfTheAge: "EndingSplit"
+  | #'Memory: "WhiteDefender"
+  | #'DarkRomance: "GreyPrince"
+  | #'GrandPerformance: "TroupeMasterGrimm"
+  | #'Ritual: "NightmareKingGrimm"
+  | #'Banishment: "NightmareLanternDestroyed"
+  | #'Brotherhood: "Pantheon1"
+  | #'Inspiration:  "Pantheon2"
+  | #'Focus: "Pantheon3"
+  | #'SoulAndShade: "Pantheon4"
+  | #'EmbraceTheVoid: "EndingSplit"
+  | #'PureCompletion: "EndingSplit"
+  | _: "ManualSplit"
+
+fun order_config(order :: List.of(Symbol)):
+  let splits: order.map(achievement_autosplit)
+  let names1:
+    for values(names :: Map.of(String, List.of(String)): {}) (k: splits, v: order):
+      let ns :: List.of(String): names.get(k, [])
+      let n:
+        match k
+        | "ManualSplit": @str{@v (@k)}
+        | _: to_string(v)
+      names ++ { k: ns.add(n) }
+  let names2:
+    for Map (k: names1.keys()):
+      match names1[k]
+      | [v]: values(k, v)
+      | vs: values(k, vs)
+  {
+    "gameName": "Hollow Knight",
+    "categoryName": "All Achievements",
+    "splitIds": splits,
+    "names": names2,
+    "endTriggeringAutosplit": #true,
+  }
+

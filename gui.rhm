@@ -1,0 +1,188 @@
+#lang rhombus/static/and_meta
+
+export:
+  main
+
+import:
+  gui
+  rhombus/rx open
+  lib("racket/base.rkt").#{random-seed} as random_seed
+  lib("net/sendurl.rkt").#{send-url} as send_url
+  "order.rhm" open
+  "hksplitmaker.rhm" open
+  "util/base64.rhm"
+  "util/json.rhm" open
+  "util/math.rhm" open
+
+fun difficulty_label(difficulty :: Difficulty) :: gui.LabelString:
+  to_string(difficulty)
+
+fun difficulty_description(difficulty :: Difficulty) :: gui.LabelString:
+  match difficulty
+  | Difficulty.Beginner:
+      "Minimal skips. Still All Achievements."
+  | Difficulty.Intermediate:
+      "Shadeskips, Acid skips, and Slopeballs."
+  | Difficulty.Advanced:
+      "Intermediate + Fireball skips."
+  | Difficulty.Expert:
+      "Advanced + Trees and Ghosts."
+  | Difficulty.Fearless:
+      "Expert + Cyclone-stall skips."
+  | Difficulty.Foolish:
+      "Fearless + Random essence drops."
+
+fun estimate_width(n :: Int) :: gui.SpacingInteger:
+  math.exact(math.ceiling(0.55 * gui.Label.normal_control_font.size * n))
+
+def difficulty_min_width :: gui.SpacingInteger:
+  def max_len:
+    for values(n: 0) (difficulty: difficulty_list):
+      math.max(n,
+               difficulty_label(difficulty).length(),
+               difficulty_description(difficulty).length())
+  estimate_width(max_len)
+
+def difficulty_obs :: gui.Obs.of(Difficulty):
+  gui.Obs(Difficulty.default, ~name: "Difficulty")
+
+def difficulty_choice:
+  gui.Choice(
+    difficulty_list,
+    ~selection: difficulty_obs,
+    ~choice_to_label: difficulty_label,
+  )
+
+def difficulty_description_obs :: gui.Obs.of(gui.LabelString):
+  difficulty_obs.map(difficulty_description)
+
+def difficulty_description_label:
+  gui.Label(difficulty_description_obs)
+
+def difficulty_panel:
+  gui.GroupPanel(
+    "Difficulty",
+    ~min_size: [difficulty_min_width, #false],
+    ~stretch: [#false, #false],
+    difficulty_choice,
+    difficulty_description_label,
+  )
+
+def seed_max_digits: to_string(2**31).length()
+def seed_min_width: estimate_width(seed_max_digits)
+
+def total_min_width:
+  round_up_multiple(40 + difficulty_min_width + seed_min_width, 10)
+
+def seed_string_obs :: gui.Obs.of(String):
+  gui.Obs(to_string(math.random(2**31)))
+
+fun seed_action(_, s :: ReadableString):
+  let n :: String: rx'[!digit]'.replace_all(to_string(s), "")
+  seed_string_obs.value := n.substring(0, math.min(seed_max_digits, n.length()))
+
+def seed_input:
+  gui.Input(
+    seed_string_obs,
+    ~action: seed_action,
+    ~is_equal_value: (_ === _),
+  )
+
+fun seed_string_to_int(s :: String) :: Int:
+  (String.to_int(s) || 0) mod (2**31)
+
+fun seed_random():
+  seed_string_obs.value := to_string(math.random(2**31))
+
+def seed_random_button:
+  gui.Button(
+    "Random",
+    ~action: seed_random,
+    ~stretch: [#false, #false],
+  )
+
+def seed_panel:
+  gui.GroupPanel(
+    "Seed",
+    ~min_size: [seed_min_width, #false],
+    ~stretch: [#false, #false],
+    seed_input,
+    seed_random_button,
+  )
+
+def settings_panel:
+  gui.HPanel(~stretch: [#false, #false], difficulty_panel, seed_panel)
+
+def order_obs :: gui.Obs.of(List.of(Symbol)):
+  gui.Obs([])
+
+fun begin_randomization():
+  random_seed(seed_string_to_int(seed_string_obs.value))
+  let order:
+    hollow_knight_achievement_order_randomizer(~difficulty: difficulty_obs.value)
+  order_obs.value := order
+
+def begin_randomization_button:
+  gui.Button(
+    "Begin Randomization",
+    ~action: begin_randomization,
+    ~stretch: [#false, #false],
+  )
+
+def order_labels :: List.of(gui.Label):
+  for List (i: 0..63):
+    fun order_i(o :: List.of(Symbol)):
+      cond
+      | i < o.length(): to_string(o[i])
+      | ~else: ""
+    gui.Label(order_obs.map(order_i))
+
+def order_vscroll_panel:
+  gui.VPanel(
+    ~styles: [gui.VPanel.Style.vscroll],
+    ~alignment: [#'left, #'top],
+    & order_labels,
+  )
+
+def order_difficulty_label:
+  fun order_d(o :: List.of(Symbol)):
+    cond
+    | 0 < o.length():
+        let d: achievement_order_difficulty(o)
+        @str{Difficulty: @difficulty_label(d)}
+    | ~else: ""
+  gui.Label(order_obs.map(order_d))
+
+fun open_hksm():
+  let order: order_obs.value
+  let url:
+    match order
+    | []: "https://hksplitmaker.com"
+    | order:
+        let config: base64.btoa(json_to_string(order_config(order)))
+        @str{https://hksplitmaker.com/?config=@config}
+  send_url(url)
+
+def open_hksm_button:
+  gui.Button(
+    "Open HK Split Maker",
+    ~action: open_hksm,
+    ~stretch: [#false, #false],
+  )
+
+def window:
+  gui.Window(
+    ~title: "Hollow Knight Achievement Order Randomizer",
+    ~min_size: [total_min_width, 720],
+    settings_panel,
+    begin_randomization_button,
+    order_vscroll_panel,
+    order_difficulty_label,
+    open_hksm_button,
+  )
+
+fun main():
+  gui.render(window)
+  #void
+
+// main()

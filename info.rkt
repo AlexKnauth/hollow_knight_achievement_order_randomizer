@@ -6,6 +6,8 @@
 
 (define deps
   '("base"
+    "gui-lib"
+    "net-lib"
     "rhombus-lib"))
 
 (define build-deps
