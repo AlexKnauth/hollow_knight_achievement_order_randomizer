@@ -69,7 +69,7 @@ fun achievement_autosplit(achievement :: Symbol) :: String:
 
 fun order_config(order :: List.of(Symbol)):
   let splits: order.map(achievement_autosplit)
-  let names:
+  let names1:
     for values(names :: Map.of(String, List.of(String)): {}) (k: splits, v: order):
       let ns :: List.of(String): names.get(k, [])
       let n:
@@ -77,11 +77,16 @@ fun order_config(order :: List.of(Symbol)):
         | "ManualSplit": @str{@v (@k)}
         | _: to_string(v)
       names ++ { k: ns.add(n) }
+  let names2:
+    for Map (k: names1.keys()):
+      match names1[k]
+      | [v]: values(k, v)
+      | vs: values(k, vs)
   {
     "gameName": "Hollow Knight",
     "categoryName": "All Achievements",
     "splitIds": splits,
-    "names": names,
+    "names": names2,
     "endTriggeringAutosplit": #true,
   }
 
