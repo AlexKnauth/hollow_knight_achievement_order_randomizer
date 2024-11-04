@@ -1,5 +1,8 @@
 #lang rhombus/static/and_meta
 
+export:
+  main
+
 import:
   gui
   rhombus/rx open

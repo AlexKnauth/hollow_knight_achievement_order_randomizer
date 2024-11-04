@@ -7,6 +7,6 @@ import:
   "order.rhm" open
 
 module main:
-  print_achievement_order_difficulty(
-    hollow_knight_achievement_order_randomizer(
-      ~difficulty: Difficulty.default))
+  import:
+    "gui.rhm"
+  gui.main()
