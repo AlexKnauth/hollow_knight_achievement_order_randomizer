@@ -2,7 +2,6 @@
 
 export:
   order_config
-  set_clipboard_json
 
 import:
   "util/clipboard.rkt" open
@@ -85,7 +84,4 @@ fun order_config(order :: List.of(Symbol)):
     "names": names,
     "endTriggeringAutosplit": #true,
   }
-
-fun set_clipboard_json(j):
-  set_clipboard_string(json_to_string(j))
 
