@@ -4,6 +4,8 @@
 # Racket-generated files
 compiled/
 /doc/
+/out/
+/*.exe
 
 # Editor-generated files
 *~
