@@ -6,6 +6,7 @@ import:
   lib("racket/base.rkt").#{random-seed} as random_seed
   lib("net/sendurl.rkt").#{send-url} as send_url
   "order.rhm" open
+  "hksplitmaker.rhm" open
   "util/math.rhm" open
 
 fun difficulty_label(difficulty :: Difficulty) :: gui.LabelString:
@@ -148,11 +149,12 @@ def order_difficulty_label:
   gui.Label(order_obs.map(order_d))
 
 fun open_hksm():
+  set_clipboard_json(order_config(order_obs.value))
   let config: #false
   let url:
     cond
     | config: @str{https://hksplitmaker.com/?config=@config}
-    | config: "https://hksplitmaker.com"
+    | ~else: "https://hksplitmaker.com"
   send_url(url)
 
 def open_hksm_button:

@@ -1,0 +1,18 @@
+#lang rhombus/static/and_meta
+
+export:
+  json_to_string
+  json_to_rktjson
+
+import:
+  lib("json/main.rkt").#{jsexpr->string} as rktjson_to_string
+
+fun json_to_rktjson(j):
+  match j
+  | [e, ...]: PairList[json_to_rktjson(e), ...]
+  | {k: v, ...}: {Symbol.from_string(k): json_to_rktjson(v), ...}
+  | j: j
+
+fun json_to_string(j):
+  rktjson_to_string(json_to_rktjson(j))
+
