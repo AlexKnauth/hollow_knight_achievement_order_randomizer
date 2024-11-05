@@ -36,3 +36,17 @@ jobs:
         run: raco setup --check-pkg-deps --unused-pkg-deps hollow_knight_achievement_order_randomizer
       - name: Testing hollow_knight_achievement_order_randomizer
         run: raco test -x -p hollow_knight_achievement_order_randomizer
+      - name: Prepare Release
+        if: matrix.racket-version == 'stable' && matrix.racket-variant == 'CS' && github.repository == 'AlexKnauth/hollow_knight_achievement_order_randomizer' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: .github/workflows/build_zip.sh
+        env:
+          OS_NAME: ${{ matrix.os }}
+      - name: Release
+        if: matrix.racket-version == 'stable' && matrix.racket-variant == 'CS' && github.repository == 'AlexKnauth/hollow_knight_achievement_order_randomizer' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: hollow-knight-achievement-order-randomizer-*.*
+          name: Latest
+          tag_name: latest
+          body: The latest version of Hollow Knight Achievement Order Randomizer.
