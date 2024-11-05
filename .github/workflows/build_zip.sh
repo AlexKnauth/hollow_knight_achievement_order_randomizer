@@ -18,7 +18,7 @@ main() {
     else
         raco distribute out main
     fi
-    cp -R "out/" "$stage/" 2>/dev/null || :
+    cp -R "out/." "$stage/" 2>/dev/null || :
 
     cd $stage
     if [ "$OS_NAME" = "windows-latest" ]; then
