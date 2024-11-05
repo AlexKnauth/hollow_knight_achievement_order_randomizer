@@ -1,15 +1,24 @@
-on: [push, pull_request]
 name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+
 jobs:
   build:
     name: "Build on Racket '${{ matrix.racket-version }}' (${{ matrix.racket-variant }})"
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       fail-fast: false
       matrix:
+        os: ["windows-latest", "ubuntu-latest", "macos-latest"]
         racket-version: ["stable", "current"]
-        racket-variant: ["BC", "CS"]
+        racket-variant: ["CS"]
         include:
           - racket-version: current
             experimental: true
