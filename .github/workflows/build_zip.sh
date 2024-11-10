@@ -10,13 +10,13 @@ main() {
         stage=$(mktemp -d)
     fi
 
-    raco exe --gui main.rhm
+    raco exe --gui HollowKnightAchievementOrderRandomizer.rhm
     if [[ $OS_NAME =~ ^windows\-.*$ ]]; then
-        raco distribute out main.exe
+        raco distribute out HollowKnightAchievementOrderRandomizer.exe
     elif [[ $OS_NAME =~ ^macos\-.*$ ]]; then
-        raco distribute out main.app
+        raco distribute out HollowKnightAchievementOrderRandomizer.app
     else
-        raco distribute out main
+        raco distribute out HollowKnightAchievementOrderRandomizer
     fi
     cp -R "out/." "$stage/" 2>/dev/null || :
 

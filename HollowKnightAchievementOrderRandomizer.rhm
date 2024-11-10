@@ -185,4 +185,5 @@ fun main():
   gui.render(window)
   #void
 
-// main()
+module main:
+  main()

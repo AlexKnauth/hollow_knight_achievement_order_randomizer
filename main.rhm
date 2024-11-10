@@ -8,5 +8,5 @@ import:
 
 module main:
   import:
-    "gui.rhm"
-  gui.main()
+    "HollowKnightAchievementOrderRandomizer.rhm"
+  HollowKnightAchievementOrderRandomizer.main()
