@@ -407,6 +407,26 @@ module test:
     ~is #true
 
   check:
+    progression_numbers(init(~difficulty: Difficulty.Beginner))
+    ~matches {#'CHARMS: 0,
+              #'COMPLETION: 6, // {0} Mawlek, Gruzmom, DNail, VS, NoEyes, Xero {6}
+              #'ESSENCE: 300}
+  check:
+    progression_numbers(init(~difficulty: Difficulty.Intermediate))
+    ~matches {#'CHARMS: 0,
+              #'COMPLETION: 22, // {6} FungfulNoCheevos, Nosk {22}
+              #'ESSENCE: 599}
+  check:
+    progression_numbers(init(~difficulty: Difficulty.Advanced))
+    ~matches {#'CHARMS: 0,
+              #'COMPLETION: 27, // {22} CDash, Ismas, Uumuu {27}
+              #'ESSENCE: 599}
+  check:
+    progression_numbers(init(~difficulty: Difficulty.Fearless))
+    ~matches {#'CHARMS: 0,
+              #'COMPLETION: 28, // {27} GreatSlash {28}
+              #'ESSENCE: 599}
+  check:
     progression_numbers(init(~difficulty: Difficulty.Beginner)
                           ++ {#'Charmed: #true})
     ~matches {#'CHARMS: 5,

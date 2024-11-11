@@ -13,7 +13,7 @@ And extract from the zip file.
 Troubleshooting:
 - On Mac, if you get an error message saying `HollowKnightAchievementOrderRandomizer.app is damaged and can't be opened. You should move it to the Trash.`, you can fix it with the command: `xattr -d com.apple.quarantine HollowKnightAchievementOrderRandomizer.app`
 
-## How to Compile from Sounce
+## How to Compile from Source
 
 Install Racket: https://download.racket-lang.org/
 
