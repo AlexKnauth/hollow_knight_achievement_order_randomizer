@@ -2,6 +2,8 @@
 
 export:
   index_of
+  subtract
+  intersect
 
 fun index_of(lst :: List, v) :: maybe(Int):
   for any (e: lst, i: 0..):
@@ -13,3 +15,22 @@ module test:
   check: index_of([#'a, #'b, #'c], #'b) ~is 1
   check: index_of([#'a, #'b, #'c], #'c) ~is 2
   check: index_of([#'a, #'b, #'c], #'d) ~is #false
+
+fun subtract(as :: List, bs :: List) :: List:
+  for List (a: as):
+    keep_when: !bs.has_element(a)
+    a
+
+module test:
+  check: subtract([1, 2, 3, 2, 4, 5, 2], [1, 2]) ~is [3, 4, 5]
+  check: subtract([1, 2, 3, 2, 4, 5, 2], [3, 4, 5]) ~is [1, 2, 2, 2]
+
+fun intersect(as :: List, bs :: List) :: List:
+  for List (a: as):
+    keep_when: bs.has_element(a)
+    a
+
+module test:
+  check: intersect([1, 2, 3, 2, 4, 5, 2], [1, 2]) ~is [1, 2, 2, 2]
+  check: intersect([1, 2, 3, 2, 4, 5, 2], [3, 4, 5]) ~is [3, 4, 5]
+

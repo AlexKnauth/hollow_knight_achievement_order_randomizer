@@ -178,11 +178,38 @@ fun next(progression :: Map, remaining :: List):
           x
       possible[math.random(possible.length())]
 
+fun next_priorities(progression :: Map, remaining :: List, next :: Symbol) :: List:
+  match next
+  | #'Rivalry: intersect([#'Warrior], remaining)
+  | (#'TheHollowKnight || #'SealedSiblings || #'DreamNoMore):
+      intersect([#'Speedrun1, #'Speedrun2], remaining)
+  | #'EmbraceTheVoid:
+      cond
+      | Map.get(progression, #'Void, #false):
+          intersect([#'Speedrun1, #'Speedrun2], remaining)
+      | ~else: []
+  | #'Completion:
+      cond
+      | Map.get(progression, #'SteelSoul, #false):
+          intersect([#'SpeedCompletion, #'SteelHeart], remaining)
+      | ~else: intersect([#'SpeedCompletion], remaining)
+  | #'SteelSoul:
+      cond
+      | Map.get(progression, #'Completion, #false):
+          intersect([#'SteelHeart], remaining)
+      | ~else: []
+  | _: []
+
 fun loop(progression :: Map, remaining :: List, given :: List):
   let progression: progression_numbers(progression)
   let n: next(progression, remaining)
   cond
-  | n: loop(progression ++ {n: #true}, remaining.remove(n), given.add(n))
+  | n:
+      let [np, ...]: next_priorities(progression, remaining, n)
+      let nnp: [n, np, ...]
+      loop(progression ++ {n: #true, np: #true, ...},
+           subtract(remaining, nnp),
+           given ++ nnp)
   | ~else: given
 
 fun hollow_knight_achievement_order_randomizer(
