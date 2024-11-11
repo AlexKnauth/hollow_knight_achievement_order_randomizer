@@ -16,10 +16,10 @@
  * Mantis Claw, Cyclone Slash, Dash Slash,
  * Sharpened Nail, Channelled Nail, Coiled Nail,
  * Howling Wraiths, Shade Soul,
- * Elder Hu, Galien, Gorb, Marmu,
+ * Elder Hu, Galien, Gorb,
  * Hive Knight
  */
-15 FungfulNoCheevos: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
+14 FungfulNoCheevos: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
 6 Hornet2KingsBrandAbyss: ProofOfResolve
 4 SoulMasterDDarkGodtuner: Illumination
 3 Hornet1MothwingCloak: TestOfResolve
@@ -27,7 +27,7 @@
 3 MasksOnlyProtected: Protected
 2 VesselsOnlySoulful: Soulful
 3 IsmasUumuu: (Honour || ACID_SKIPS) + (TestOfResolve || Release || FIREBALL_SKIPS)
-2 CrystalHeart: TestOfResolve || Release || FIREBALL_SKIPS
+3 CDashMarmu: TestOfResolve || Release || FIREBALL_SKIPS
 1 Nosk: TestOfResolve || Release || FIREBALL_SKIPS || SHADESKIP
 1 GreatSlash: TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)
 

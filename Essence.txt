@@ -5,7 +5,7 @@
  */
 
 2400 RandomEssenceDrops: RANDOM_ESSENCE_DROPS
-550 DreamWarriorsFungful: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS // Elder Hu, Galien, Gorb, Marmu
+400 DreamWarriorsFungful: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS // Elder Hu, Galien, Gorb
 300 DreamWarriorsFungless // No Eyes, Xero
 506 TreesAndGhosts: TREES_AND_GHOSTS
 400 LostKinEssence: Peace
@@ -14,3 +14,4 @@
 300 WhiteDefenderEssence: Memory
 300 SoulTyrantEssence: Mortality
 250 MarkothEssence: TestOfResolve + ProofOfResolve
+150 MarmuEssence: TestOfResolve || Release || FIREBALL_SKIPS

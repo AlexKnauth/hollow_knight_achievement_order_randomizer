@@ -414,12 +414,12 @@ module test:
   check:
     progression_numbers(init(~difficulty: Difficulty.Intermediate))
     ~matches {#'CHARMS: 0,
-              #'COMPLETION: 22, // {6} FungfulNoCheevos, Nosk {22}
+              #'COMPLETION: 21, // {6} FungfulNoCheevos, Nosk {21}
               #'ESSENCE: 599}
   check:
     progression_numbers(init(~difficulty: Difficulty.Advanced))
     ~matches {#'CHARMS: 0,
-              #'COMPLETION: 27, // {22} CDash, Ismas, Uumuu {27}
+              #'COMPLETION: 27, // {21} CDash, Ismas, Uumuu, Marmu {27}
               #'ESSENCE: 599}
   check:
     progression_numbers(init(~difficulty: Difficulty.Fearless))
@@ -436,7 +436,7 @@ module test:
     progression_numbers(init(~difficulty: Difficulty.Intermediate)
                           ++ {#'Charmed: #true})
     ~matches {#'CHARMS: 19,
-              #'COMPLETION: 41,
+              #'COMPLETION: 40,
               #'ESSENCE: 599}
   check:
     progression_numbers(init() ++ {#'Charmed: #true})
