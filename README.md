@@ -4,7 +4,16 @@ Generating lists of achievements in random order within logic.
 
 By AlexKnauth and tigrin29.
 
-## Installation
+## How to Install
+
+Download the latest release for your operating system from: https://github.com/AlexKnauth/hollow_knight_achievement_order_randomizer/releases/latest
+
+And extract from the zip file.
+
+Troubleshooting:
+- On Mac, if you get an error message saying `HollowKnightAchievementOrderRandomizer.app is damaged and can't be opened. You should move it to the Trash.`, you can fix it with the command: `xattr -d com.apple.quarantine HollowKnightAchievementOrderRandomizer.app`
+
+## How to Compile from Sounce
 
 Install Racket: https://download.racket-lang.org/
 
