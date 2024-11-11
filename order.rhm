@@ -154,7 +154,7 @@ def count_charms_cap: count_number_cap(Charms_keys, Charms_map)
 def count_noncharm_completion_cap: count_number_cap(Completion_keys, Completion_map)
 
 fun count_completion(progression :: Map):
-  count_charms(progression) + count_noncharm_completion_cap(progression, 112)
+  Map.get(progression, #'CHARMS, 0) + count_noncharm_completion_cap(progression, 72)
 
 def count_essence_cap: count_number_cap(Essence_keys, Essence_map)
 
@@ -164,10 +164,9 @@ fun count_essence(progression :: Map):
   | ~else: count_essence_cap(progression, 599)
 
 fun progression_numbers(progression :: Map) :: Map:
-  progression
-    ++ { #'CHARMS: count_charms(progression),
-         #'COMPLETION: count_completion(progression),
-         #'ESSENCE: count_essence(progression) }
+  let progression_e: progression ++ { #'ESSENCE: count_essence(progression) }
+  let progression_c: progression_e ++  { #'CHARMS: count_charms(progression_e) }
+  progression_c ++ { #'COMPLETION: count_completion(progression_c) }
 
 fun next(progression :: Map, remaining :: List):
   match remaining
@@ -406,6 +405,53 @@ module test:
                                    #'TheHollowKnight,
                                    #'Completion])
     ~is #true
+
+  check:
+    progression_numbers(init(~difficulty: Difficulty.Beginner)
+                          ++ {#'Charmed: #true})
+    ~matches {#'CHARMS: 5,
+              #'COMPLETION: 11,
+              #'ESSENCE: 300}
+  check:
+    progression_numbers(init(~difficulty: Difficulty.Intermediate)
+                          ++ {#'Charmed: #true})
+    ~matches {#'CHARMS: 19,
+              #'COMPLETION: 41,
+              #'ESSENCE: 599}
+  check:
+    progression_numbers(init() ++ {#'Charmed: #true})
+    ~matches {#'CHARMS: 19,
+              #'COMPLETION: 46,
+              #'ESSENCE: 599}
+  check:
+    progression_numbers(init() ++ {#'Falsehood: #true, // {28} +1 {29}
+                                   #'Charmed: #true, // {29} +19 {48}
+                                   #'Enchanted: #true, // {48} +11 {59}
+                                   #'TestOfResolve: #true, // {59} +3+1 {63}
+                                   #'Respect: #true, // {63} +1+1 {65}
+                                   #'Illumination: #true, // {65} +4+3 {72}
+                                   #'Watcher: #true, // {72} +1 {73}
+                                   #'Honour: #true, // {73} +1+1 {75}
+                                   #'Release: #true, // {75} +3 {78}
+                                   #'Peace: #true,
+                                   #'Attunement: #true,
+                                   #'Strength: #true,
+                                   #'ProofOfResolve: #true, // {78} +6+1+1+1 {87}
+                                   #'Mortality: #true,
+                                   #'Grubfriend: #true,
+                                   #'GrandPerformance: #true, // {87} +1 {88}
+                                   #'Teacher: #true, // {88} +1 {89}
+                                   #'Execution: #true, // {89} +1 {90}
+                                   #'Beast: #true, // {90} +1 {91}
+                                   #'Banishment: #true, // {91} +1 {92}
+                                   #'Awakening: #true, // {92} +1+1 {94}
+                                   #'Protected: #true, // {94} +3 {97}
+                                   #'Warrior: #true, // {97} +1 {98}
+                                   #'Conqueror: #true, // {98} +1+1 {100}
+                                   })
+    ~matches {#'CHARMS: 39,
+              #'COMPLETION: 100,
+              #'ESSENCE: 2100}
 
   check:
     is_achievement_order_in_logic([#'Grubfriend,
