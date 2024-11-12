@@ -4,7 +4,6 @@ export:
   order_config
 
 import:
-  "util/clipboard.rkt" open
   "util/json.rhm" open
   "util/list.rhm" open
 
