@@ -6,6 +6,13 @@ export:
 import:
   "util/clipboard.rkt" open
   "util/json.rhm" open
+  "util/list.rhm" open
+
+def endings: [#'TheHollowKnight, #'SealedSiblings, #'DreamNoMore, #'EmbraceTheVoid]
+
+fun order_entries(order :: List.of(Symbol)) :: List:
+  for List (achievement: order):
+    [achievement, achievement_autosplit(achievement)]
 
 fun achievement_autosplit(achievement :: Symbol) :: String:
   match achievement
@@ -65,12 +72,82 @@ fun achievement_autosplit(achievement :: Symbol) :: String:
   | #'SoulAndShade: "Pantheon4"
   | #'EmbraceTheVoid: "EndingSplit"
   | #'PureCompletion: "EndingSplit"
+  | #'BenchAny: "BenchAny"
   | _: "ManualSplit"
 
+fun entries_insert_bench(entries :: List) :: List:
+  match entries
+  | []: []
+  | entries:
+      let values(before, endings_after):
+        splitf_at(entries, fun ([a, s]): s != "EndingSplit")
+      let ending_a:
+        for any ([a, s]: endings_after):
+          break_when: s != "EndingSplit"
+          keep_when: endings.has_element(a)
+          a
+      let values(endings, after):
+        splitf_at(endings_after,
+                  fun ([a, s]):
+                    s == "EndingSplit" && (a == ending_a || !endings.has_element(a)))
+      match after
+      | []: before ++ endings
+      | [[_, "EndingSplit"], & _]:
+          before
+            ++ endings
+            ++ [[#'BenchAny, "BenchAny"]]
+            ++ entries_insert_bench(after)
+      | after:
+          before
+            ++ endings
+            ++ entries_insert_bench(after)
+
+module test:
+  check:
+    entries_insert_bench([[#'TheHollowKnight, "EndingSplit"],
+                          [#'Speedrun1, "EndingSplit"],
+                          [#'Speedrun2, "EndingSplit"],
+                          [#'SealedSiblings, "EndingSplit"],
+                          [#'PassingOfTheAge, "EndingSplit"],
+                          [#'DreamNoMore, "EndingSplit"],
+                          [#'Completion, "EndingSplit"],
+                          [#'SpeedCompletion, "EndingSplit"]])
+    ~is [[#'TheHollowKnight, "EndingSplit"],
+         [#'Speedrun1, "EndingSplit"],
+         [#'Speedrun2, "EndingSplit"],
+         [#'BenchAny, "BenchAny"],
+         [#'SealedSiblings, "EndingSplit"],
+         [#'PassingOfTheAge, "EndingSplit"],
+         [#'BenchAny, "BenchAny"],
+         [#'DreamNoMore, "EndingSplit"],
+         [#'Completion, "EndingSplit"],
+         [#'SpeedCompletion, "EndingSplit"]]
+  check:
+    entries_insert_bench([[#'TheHollowKnight, "EndingSplit"],
+                          [#'Speedrun1, "EndingSplit"],
+                          [#'Speedrun2, "EndingSplit"],
+                          [#'Void, "VoidHeart"],
+                          [#'SealedSiblings, "EndingSplit"],
+                          [#'PassingOfTheAge, "EndingSplit"],
+                          [#'Grubfriend, "Grub23"],
+                          [#'DreamNoMore, "EndingSplit"],
+                          [#'Completion, "EndingSplit"],
+                          [#'SpeedCompletion, "EndingSplit"]])
+    ~is [[#'TheHollowKnight, "EndingSplit"],
+         [#'Speedrun1, "EndingSplit"],
+         [#'Speedrun2, "EndingSplit"],
+         [#'Void, "VoidHeart"],
+         [#'SealedSiblings, "EndingSplit"],
+         [#'PassingOfTheAge, "EndingSplit"],
+         [#'Grubfriend, "Grub23"],
+         [#'DreamNoMore, "EndingSplit"],
+         [#'Completion, "EndingSplit"],
+         [#'SpeedCompletion, "EndingSplit"]]
+
 fun order_config(order :: List.of(Symbol)):
-  let splits: order.map(achievement_autosplit)
+  let entries1: order_entries(order)
   let names1:
-    for values(names :: Map.of(String, List.of(String)): {}) (k: splits, v: order):
+    for values(names :: Map.of(String, List.of(String)): {}) ([v, k]: entries1):
       let ns :: List.of(String): names.get(k, [])
       let n:
         match k
@@ -82,10 +159,11 @@ fun order_config(order :: List.of(Symbol)):
       match names1[k]
       | [v]: values(k, v)
       | vs: values(k, vs)
+  let splits2: entries_insert_bench(entries1).map(fun ([_, s]): s)
   {
     "gameName": "Hollow Knight",
     "categoryName": "All Achievements",
-    "splitIds": splits,
+    "splitIds": splits2,
     "names": names2,
     "endTriggeringAutosplit": #true,
   }
