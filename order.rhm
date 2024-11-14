@@ -35,7 +35,6 @@ enum Difficulty:
   Beginner
   Intermediate
   Advanced
-  Expert
   Fearless
   Foolish
 
@@ -45,7 +44,6 @@ def difficulty_list :: List.of(Difficulty):
   [Difficulty.Beginner,
    Difficulty.Intermediate,
    Difficulty.Advanced,
-   Difficulty.Expert,
    Difficulty.Fearless,
    Difficulty.Foolish]
 
@@ -59,9 +57,8 @@ fun init(~difficulty: difficulty :: Difficulty = Difficulty.default) :: Map:
     #'ACID_SKIPS: difficulty_int(Difficulty.Intermediate) <= di,
     #'SLOPEBALL_SKIPS: difficulty_int(Difficulty.Intermediate) <= di,
     #'FIREBALL_SKIPS: difficulty_int(Difficulty.Advanced) <= di,
-    #'TREES_AND_GHOSTS: difficulty_int(Difficulty.Expert) <= di,
-    #'CYCLONE_STALL_SKIPS: difficulty_int(Difficulty.Fearless) <= di,
-    #'RANDOM_ESSENCE_DROPS: difficulty_int(Difficulty.Foolish) <= di,
+    #'TREES_AND_GHOSTS: difficulty_int(Difficulty.Fearless) <= di,
+    #'CYCLONE_STALL_SKIPS: difficulty_int(Difficulty.Foolish) <= di,
   }
 
 syntax_class NumericTerm:
@@ -251,14 +248,14 @@ module test:
 
   check:
     // 850 + 506 = 1356
-    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Fearless,
                                   [#'Charmed,
                                    #'Attunement,
                                    #'Awakening])
     ~is #false
   check:
     // 850 + 250 + 506 = 1606
-    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Fearless,
                                   [#'Charmed,
                                    #'TestOfResolve,
                                    #'ProofOfResolve,
@@ -267,7 +264,7 @@ module test:
     ~is #false
   check:
     // 850 + 300 + 506 = 1656
-    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Fearless,
                                   [#'Charmed,
                                    #'Falsehood,
                                    #'Strength,
@@ -276,7 +273,7 @@ module test:
     ~is #false
   check:
     // 850 + 400 + 506 = 1756
-    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Fearless,
                                   [#'Charmed,
                                    #'Release,
                                    #'Peace,
@@ -285,7 +282,7 @@ module test:
     ~is #false
   check:
     // 850 + 400 + 300 + 506 = 2056
-    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Fearless,
                                   [#'Charmed,
                                    #'Release,
                                    #'Peace,
@@ -296,7 +293,7 @@ module test:
     ~is #true
   check:
     // 850 + 400 + 250 + 506 = 2006
-    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Fearless,
                                   [#'Charmed,
                                    #'TestOfResolve,
                                    #'Release,
@@ -307,7 +304,7 @@ module test:
     ~is #true
   check:
     // 850 + 300 + 250 + 506 = 1906
-    is_achievement_order_in_logic(~difficulty: Difficulty.Expert,
+    is_achievement_order_in_logic(~difficulty: Difficulty.Fearless,
                                   [#'Charmed,
                                    #'TestOfResolve,
                                    #'Falsehood,
@@ -317,12 +314,13 @@ module test:
                                    #'Awakening])
     ~is #true
   check:
+    // 850 + 250 + 506 = 1606, short of the 1800 needed
     achievement_order_difficulty([#'Charmed,
                                   #'TestOfResolve,
                                   #'ProofOfResolve,
                                   #'Attunement,
                                   #'Awakening])
-    ~is Difficulty.Foolish
+    ~is #false
   check:
     // 850 + 300 + 250 + 506 = 1906
     achievement_order_difficulty([#'Falsehood,
@@ -332,7 +330,7 @@ module test:
                                   #'ProofOfResolve,
                                   #'Attunement,
                                   #'Awakening])
-    ~is Difficulty.Expert
+    ~is Difficulty.Fearless
   check:
     // 850 + 400 + 300 + 250 = 1800
     achievement_order_difficulty([#'Falsehood,
@@ -449,7 +447,7 @@ module test:
               #'COMPLETION: 27, // {21} CDash, Ismas, Uumuu, Marmu {27}
               #'ESSENCE: 599}
   check:
-    progression_numbers(init(~difficulty: Difficulty.Fearless))
+    progression_numbers(init(~difficulty: Difficulty.Foolish))
     ~matches {#'CHARMS: 0,
               #'COMPLETION: 28, // {27} GreatSlash {28}
               #'ESSENCE: 599}
@@ -525,7 +523,7 @@ module test:
                                   #'Warrior,
                                   #'Conqueror,
                                   #'HappyCouple])
-    ~is Difficulty.Fearless
+    ~is Difficulty.Foolish
   check:
     achievement_order_difficulty([#'Grubfriend,
                                   #'Teacher,
@@ -560,3 +558,8 @@ module test:
     check: hornet1 < traitor_lord ~is #true
     check: hornet2 < traitor_lord ~is #true
     check: traitor_lord < radiance ~is #true
+
+module main:
+  print_achievement_order_difficulty(
+    hollow_knight_achievement_order_randomizer(~difficulty: Difficulty.Foolish))
+

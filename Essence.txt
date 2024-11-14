@@ -4,7 +4,6 @@
  * amount name: requirements
  */
 
-2400 RandomEssenceDrops: RANDOM_ESSENCE_DROPS
 400 DreamWarriorsFungful: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS // Elder Hu, Galien, Gorb
 300 DreamWarriorsFungless // No Eyes, Xero
 506 TreesAndGhosts: TREES_AND_GHOSTS

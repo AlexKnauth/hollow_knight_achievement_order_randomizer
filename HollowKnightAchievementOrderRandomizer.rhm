@@ -25,12 +25,10 @@ fun difficulty_description(difficulty :: Difficulty) :: gui.LabelString:
       "Shadeskips, Acid skips, and Slopeballs."
   | Difficulty.Advanced:
       "Intermediate + Fireball skips."
-  | Difficulty.Expert:
-      "Advanced + Trees and Ghosts."
   | Difficulty.Fearless:
-      "Expert + Cyclone-stall skips."
+      "Advanced + Trees and Ghosts."
   | Difficulty.Foolish:
-      "Fearless + Random essence drops."
+      "Fearless + Cyclone-stall skips."
 
 fun estimate_width(n :: Int) :: gui.SpacingInteger:
   math.exact(math.ceiling(0.55 * gui.Label.normal_control_font.size * n))
