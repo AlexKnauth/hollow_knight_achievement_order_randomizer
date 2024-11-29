@@ -4,8 +4,8 @@ export:
   order_config
 
 import:
+  treelist_util open
   "util/json.rhm" open
-  "util/list.rhm" open
 
 def endings: [#'TheHollowKnight, #'SealedSiblings, #'DreamNoMore, #'EmbraceTheVoid]
 
@@ -79,16 +79,17 @@ fun entries_insert_bench(entries :: List) :: List:
   | []: []
   | entries:
       let values(before, endings_after):
-        splitf_at(entries, fun ([a, s]): s != "EndingSplit")
+        List.splitf(entries, fun ([a, s]): s != "EndingSplit")
       let ending_a:
         for any ([a, s]: endings_after):
           break_when: s != "EndingSplit"
           keep_when: endings.has_element(a)
           a
       let values(endings, after):
-        splitf_at(endings_after,
-                  fun ([a, s]):
-                    s == "EndingSplit" && (a == ending_a || !endings.has_element(a)))
+        List.splitf(
+          endings_after,
+          fun ([a, s]):
+            s == "EndingSplit" && (a == ending_a || !endings.has_element(a)))
       match after
       | []: before ++ endings
       | [[_, "EndingSplit"], & _]:

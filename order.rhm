@@ -12,9 +12,12 @@ export:
 import:
   rhombus/runtime_path
   rhombus/shrubbery
+  treelist_util open
   lib("racket/base.rkt").#{open-input-file} as open_input_file
   "entry.rhm" open
-  "util/list.rhm" open
+
+fun intersect(as :: List, bs :: List) :: List:
+  List.filter(~keep: bs.has_element(_), as)
 
 runtime_path.def AARAO_txt: "AARAO.txt"
 runtime_path.def Charms_txt: "Charms.txt"
@@ -48,7 +51,7 @@ def difficulty_list :: List.of(Difficulty):
    Difficulty.Foolish]
 
 fun difficulty_int(difficulty :: Difficulty) :: Int:
-  index_of(difficulty_list, difficulty)
+  List.index_of(difficulty_list, difficulty)
 
 fun init(~difficulty: difficulty :: Difficulty = Difficulty.default) :: Map:
   let di: difficulty_int(difficulty)
@@ -205,7 +208,7 @@ fun loop(progression :: Map, remaining :: List, given :: List):
       let [np, ...]: next_priorities(progression, remaining, n)
       let nnp: [n, np, ...]
       loop(progression ++ {n: #true, np: #true, ...},
-           subtract(remaining, nnp),
+           List.remove_all(remaining, nnp),
            given ++ nnp)
   | ~else: given
 
@@ -551,10 +554,10 @@ module test:
     use_dynamic
     let order: hollow_knight_achievement_order_randomizer()
     check: order.length() ~is 63
-    let hornet1: index_of(order, #'TestOfResolve)
-    let hornet2: index_of(order, #'ProofOfResolve)
-    let traitor_lord: index_of(order, #'Execution)
-    let radiance: index_of(order, #'DreamNoMore)
+    let hornet1: List.index_of(order, #'TestOfResolve)
+    let hornet2: List.index_of(order, #'ProofOfResolve)
+    let traitor_lord: List.index_of(order, #'Execution)
+    let radiance: List.index_of(order, #'DreamNoMore)
     check: hornet1 < traitor_lord ~is #true
     check: hornet2 < traitor_lord ~is #true
     check: traitor_lord < radiance ~is #true

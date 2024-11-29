@@ -8,7 +8,8 @@
   '("base"
     "gui-lib"
     "net-lib"
-    "rhombus-lib"))
+    "rhombus-lib"
+    "treelist-util"))
 
 (define build-deps
   '("rhombus"
