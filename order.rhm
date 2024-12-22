@@ -550,6 +550,66 @@ module test:
                                   #'HappyCouple])
     ~is Difficulty.Beginner
 
+  check:
+    achievement_order_difficulty([#'Falsehood,
+                                  #'Respect,
+                                  #'Illumination,
+                                  #'Honour,
+                                  #'Release,
+                                  #'Charmed,
+                                  #'TestOfResolve,
+                                  #'Strength,
+                                  #'ProofOfResolve,
+                                  #'Attunement,
+                                  #'Obsession,
+                                  #'Warrior,
+                                  #'Conqueror,
+                                  #'Execution,
+                                  #'Awakening,
+                                  #'KeenHunter,
+                                  #'TrueHunter])
+    ~is Difficulty.Fearless
+  check:
+    achievement_order_difficulty([#'Falsehood,
+                                  #'Respect,
+                                  #'Illumination,
+                                  #'Honour,
+                                  #'Release,
+                                  #'Peace,
+                                  #'Charmed,
+                                  #'TestOfResolve,
+                                  #'Strength,
+                                  #'ProofOfResolve,
+                                  #'Attunement,
+                                  #'Obsession,
+                                  #'Warrior,
+                                  #'Conqueror,
+                                  #'Execution,
+                                  #'Awakening,
+                                  #'KeenHunter,
+                                  #'TrueHunter])
+    ~is Difficulty.Intermediate
+  check:
+    achievement_order_difficulty([#'Falsehood,
+                                  #'TestOfResolve,
+                                  #'Respect,
+                                  #'Illumination,
+                                  #'Honour,
+                                  #'Release,
+                                  #'Peace,
+                                  #'Charmed,
+                                  #'Strength,
+                                  #'ProofOfResolve,
+                                  #'Attunement,
+                                  #'Obsession,
+                                  #'Warrior,
+                                  #'Conqueror,
+                                  #'Execution,
+                                  #'Awakening,
+                                  #'KeenHunter,
+                                  #'TrueHunter])
+    ~is Difficulty.Beginner
+
   for (_: 0..100):
     use_dynamic
     let order: hollow_knight_achievement_order_randomizer()
