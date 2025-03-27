@@ -83,13 +83,13 @@ fun entries_insert_bench(entries :: List) :: List:
       let ending_a:
         for any ([a, s]: endings_after):
           break_when: s != "EndingSplit"
-          keep_when: endings.has_element(a)
+          keep_when: endings.contains(a)
           a
       let values(endings, after):
         List.splitf(
           endings_after,
           fun ([a, s]):
-            s == "EndingSplit" && (a == ending_a || !endings.has_element(a)))
+            s == "EndingSplit" && (a == ending_a || !endings.contains(a)))
       match after
       | []: before ++ endings
       | [[_, "EndingSplit"], & _]:

@@ -17,7 +17,7 @@ import:
   "entry.rhm" open
 
 fun intersect(as :: List, bs :: List) :: List:
-  List.filter(~keep: bs.has_element(_), as)
+  List.filter(~keep: bs.contains(_), as)
 
 runtime_path.def AARAO_txt: "AARAO.txt"
 runtime_path.def Charms_txt: "Charms.txt"
