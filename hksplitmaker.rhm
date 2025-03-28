@@ -11,7 +11,7 @@ def endings: [#'TheHollowKnight, #'SealedSiblings, #'DreamNoMore, #'EmbraceTheVo
 
 fun order_entries(order :: List.of(Symbol)) :: List:
   for List (achievement: order):
-    [achievement, achievement_autosplit(achievement)]
+    [achievement, achievement_autosplit(achievement), achievement_icon(achievement)]
 
 fun achievement_autosplit(achievement :: Symbol) :: String:
   match achievement
@@ -74,80 +74,101 @@ fun achievement_autosplit(achievement :: Symbol) :: String:
   | #'BenchAny: "BenchAny"
   | _: "ManualSplit"
 
+fun achievement_icon(achievement :: Symbol) :: maybe(String):
+  match achievement
+  | #'Cartographer: "CorniferAtHome"
+  | #'Charmed: "CanOvercharm"
+  | #'Connection: "StagnestStation"
+  | #'DreamNoMore: "DreamNoMore"
+  | #'EmbraceTheVoid: "Pantheon5"
+  | #'Enchanted: "SalubrasBlessing"
+  | #'KeenHunter: "HuntersMark"
+  | #'Neglect: "ZoteKilled"
+  | #'PassingOfTheAge: "MrMushroom7"
+  | #'SealedSiblings: "SealedSiblings"
+  | #'TheHollowKnight: "TheHollowKnight"
+  | #'Witness: "BlueLake"
+  | ~else: #false
+
 fun entries_insert_bench(entries :: List) :: List:
   match entries
   | []: []
   | entries:
       let values(before, endings_after):
-        List.splitf(entries, fun ([a, s]): s != "EndingSplit")
+        List.splitf(entries, fun ([a, s, i]): s != "EndingSplit")
       let ending_a:
-        for any ([a, s]: endings_after):
+        for any ([a, s, i]: endings_after):
           break_when: s != "EndingSplit"
           keep_when: endings.contains(a)
           a
+      let ending_i: ending_a && achievement_icon(ending_a)
       let values(endings, after):
         List.splitf(
           endings_after,
-          fun ([a, s]):
+          fun ([a, s, i]):
             s == "EndingSplit" && (a == ending_a || !endings.contains(a)))
+      let endings2:
+        for List ([a, s, i]: endings):
+          [a, s, i || ending_i]
       match after
-      | []: before ++ endings
-      | [[_, "EndingSplit"], & _]:
+      | []: before ++ endings2
+      | [[_, "EndingSplit", _], & _]:
           before
-            ++ endings
-            ++ [[#'BenchAny, "BenchAny"]]
+            ++ endings2
+            ++ [[#'BenchAny, "BenchAny", #false]]
             ++ entries_insert_bench(after)
       | after:
           before
-            ++ endings
+            ++ endings2
             ++ entries_insert_bench(after)
 
 module test:
   check:
-    entries_insert_bench([[#'TheHollowKnight, "EndingSplit"],
-                          [#'Speedrun1, "EndingSplit"],
-                          [#'Speedrun2, "EndingSplit"],
-                          [#'SealedSiblings, "EndingSplit"],
-                          [#'PassingOfTheAge, "EndingSplit"],
-                          [#'DreamNoMore, "EndingSplit"],
-                          [#'Completion, "EndingSplit"],
-                          [#'SpeedCompletion, "EndingSplit"]])
-    ~is [[#'TheHollowKnight, "EndingSplit"],
-         [#'Speedrun1, "EndingSplit"],
-         [#'Speedrun2, "EndingSplit"],
-         [#'BenchAny, "BenchAny"],
-         [#'SealedSiblings, "EndingSplit"],
-         [#'PassingOfTheAge, "EndingSplit"],
-         [#'BenchAny, "BenchAny"],
-         [#'DreamNoMore, "EndingSplit"],
-         [#'Completion, "EndingSplit"],
-         [#'SpeedCompletion, "EndingSplit"]]
+    entries_insert_bench([[#'TheHollowKnight, "EndingSplit", "TheHollowKnight"],
+                          [#'Speedrun1, "EndingSplit", #false],
+                          [#'Speedrun2, "EndingSplit", #false],
+                          [#'SealedSiblings, "EndingSplit", "SealedSiblings"],
+                          [#'PassingOfTheAge, "EndingSplit", #false],
+                          [#'DreamNoMore, "EndingSplit", "DreamNoMore"],
+                          [#'Completion, "EndingSplit", #false],
+                          [#'SpeedCompletion, "EndingSplit", #false]])
+    ~is [[#'TheHollowKnight, "EndingSplit", "TheHollowKnight"],
+         [#'Speedrun1, "EndingSplit", "TheHollowKnight"],
+         [#'Speedrun2, "EndingSplit", "TheHollowKnight"],
+         [#'BenchAny, "BenchAny", #false],
+         [#'SealedSiblings, "EndingSplit", "SealedSiblings"],
+         [#'PassingOfTheAge, "EndingSplit", "SealedSiblings"],
+         [#'BenchAny, "BenchAny", #false],
+         [#'DreamNoMore, "EndingSplit", "DreamNoMore"],
+         [#'Completion, "EndingSplit", "DreamNoMore"],
+         [#'SpeedCompletion, "EndingSplit", "DreamNoMore"]]
   check:
-    entries_insert_bench([[#'TheHollowKnight, "EndingSplit"],
-                          [#'Speedrun1, "EndingSplit"],
-                          [#'Speedrun2, "EndingSplit"],
-                          [#'Void, "VoidHeart"],
-                          [#'SealedSiblings, "EndingSplit"],
-                          [#'PassingOfTheAge, "EndingSplit"],
-                          [#'Grubfriend, "Grub23"],
-                          [#'DreamNoMore, "EndingSplit"],
-                          [#'Completion, "EndingSplit"],
-                          [#'SpeedCompletion, "EndingSplit"]])
-    ~is [[#'TheHollowKnight, "EndingSplit"],
-         [#'Speedrun1, "EndingSplit"],
-         [#'Speedrun2, "EndingSplit"],
-         [#'Void, "VoidHeart"],
-         [#'SealedSiblings, "EndingSplit"],
-         [#'PassingOfTheAge, "EndingSplit"],
-         [#'Grubfriend, "Grub23"],
-         [#'DreamNoMore, "EndingSplit"],
-         [#'Completion, "EndingSplit"],
-         [#'SpeedCompletion, "EndingSplit"]]
+    entries_insert_bench([[#'TheHollowKnight, "EndingSplit", "TheHollowKnight"],
+                          [#'Speedrun1, "EndingSplit", #false],
+                          [#'Speedrun2, "EndingSplit", #false],
+                          [#'Void, "VoidHeart", #false],
+                          [#'SealedSiblings, "EndingSplit", "SealedSiblings"],
+                          [#'PassingOfTheAge, "EndingSplit", #false],
+                          [#'Grubfriend, "Grub23", #false],
+                          [#'DreamNoMore, "EndingSplit", "DreamNoMore"],
+                          [#'Completion, "EndingSplit", #false],
+                          [#'SpeedCompletion, "EndingSplit", #false]])
+    ~is [[#'TheHollowKnight, "EndingSplit", "TheHollowKnight"],
+         [#'Speedrun1, "EndingSplit", "TheHollowKnight"],
+         [#'Speedrun2, "EndingSplit", "TheHollowKnight"],
+         [#'Void, "VoidHeart", #false],
+         [#'SealedSiblings, "EndingSplit", "SealedSiblings"],
+         [#'PassingOfTheAge, "EndingSplit", "SealedSiblings"],
+         [#'Grubfriend, "Grub23", #false],
+         [#'DreamNoMore, "EndingSplit", "DreamNoMore"],
+         [#'Completion, "EndingSplit", "DreamNoMore"],
+         [#'SpeedCompletion, "EndingSplit", "DreamNoMore"]]
 
 fun order_config(order :: List.of(Symbol)):
   let entries1: order_entries(order)
+  let entries2: entries_insert_bench(entries1)
   let names1:
-    for values(names :: Map.of(String, List.of(String)): {}) ([v, k]: entries1):
+    for values(names :: Map.of(String, List.of(String)): {}) ([v, k, _]: entries1):
       let ns :: List.of(String): names.get(k, [])
       let n:
         match k
@@ -159,12 +180,26 @@ fun order_config(order :: List.of(Symbol)):
       match names1[k]
       | [v]: values(k, v)
       | vs: values(k, vs)
-  let splits2: entries_insert_bench(entries1).map(fun ([_, s]): s)
+  let icons1:
+    for values(icons :: Map.of(String, List.of(String)): {}) ([_, k, v]: entries2):
+      let is :: List.of(String): icons.get(k, [])
+      let i: v || k
+      icons ++ { k: is.add(i) }
+  let icons2:
+    for values(icons :: Map: {}) (k: icons1.keys()):
+      let vs: icons1[k]
+      let [v, ...]: vs
+      cond
+      | all(v == k, ...): icons
+      | vs.length() == 1: icons ++ { k: vs[0] }
+      | ~else: icons ++ { k: vs }
+  let splits2: entries2.map(fun ([_, s, _]): s)
   {
     "gameName": "Hollow Knight",
     "categoryName": "All Achievements",
     "splitIds": splits2,
     "names": names2,
+    "icons": icons2,
     "endTriggeringAutosplit": #true,
   }
 
