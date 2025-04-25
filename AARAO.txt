@@ -28,7 +28,7 @@
 22. Awakening: Charmed + Attunement + (1800 <= ESSENCE)
 23. Ascension: Awakening + (2400 <= ESSENCE)
 24. Grubfriend: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS
-25. Metamorphosis: Illumination + Obsession + Grubfriend
+25. Metamorphosis: Illumination + Obsession + Grubfriend + (Release || (SLOPEBALL_SKIPS + FIREBALL_SKIPS + SHADESKIP))
 26. Purity: Grubfriend + Conqueror // Hardlocks HappyCouple
 27. HappyCouple: Grubfriend + Conqueror + (TestOfResolve || Release || (CYCLONE_STALL_SKIPS + FIREBALL_SKIPS)) // Hardlocks Purity
 28. Witness: Teacher
