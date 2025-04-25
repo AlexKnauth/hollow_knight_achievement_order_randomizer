@@ -6,7 +6,7 @@
 
 400 DreamWarriorsFungful: TestOfResolve || FIREBALL_SKIPS || SLOPEBALL_SKIPS // Elder Hu, Galien, Gorb
 300 DreamWarriorsFungless // No Eyes, Xero
-506 TreesAndGhosts: TREES_AND_GHOSTS
+433 TreesAndGhostsBasic: TREES_AND_GHOSTS
 400 LostKinEssence: Peace
 300 FailedChampionEssence: Strength
 300 GreyPrinceZoteEssence: DarkRomance
@@ -14,3 +14,5 @@
 300 SoulTyrantEssence: Mortality
 250 MarkothEssence: TestOfResolve + ProofOfResolve
 150 MarmuEssence: TestOfResolve || Release || FIREBALL_SKIPS
+44 WhisperingRootGreenpath: TREES_AND_GHOSTS + (TestOfResolve || Release || (FIREBALL_SKIPS + SHADESKIP))
+29 WhisperingRootQueensGardens: TREES_AND_GHOSTS + (TestOfResolve || Release || FIREBALL_SKIPS)
