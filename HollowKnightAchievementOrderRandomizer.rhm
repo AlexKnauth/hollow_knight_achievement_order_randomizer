@@ -14,10 +14,10 @@ import:
   "util/json.rhm" open
   "util/math.rhm" open
 
-fun difficulty_label(difficulty :: Difficulty) :: gui.LabelString:
+fun difficulty_label(difficulty :: Difficulty) :: gui.View.LabelString:
   to_string(difficulty)
 
-fun difficulty_description(difficulty :: Difficulty) :: gui.LabelString:
+fun difficulty_description(difficulty :: Difficulty) :: gui.View.LabelString:
   match difficulty
   | Difficulty.Beginner:
       "Minimal skips. Still All Achievements."
@@ -30,10 +30,10 @@ fun difficulty_description(difficulty :: Difficulty) :: gui.LabelString:
   | Difficulty.Foolish:
       "Fearless + Cyclone-stall skips."
 
-fun estimate_width(n :: Int) :: gui.SpacingInteger:
+fun estimate_width(n :: Int) :: gui.View.SpacingInt:
   math.exact(math.ceiling(0.55 * gui.Label.normal_control_font.size * n))
 
-def difficulty_min_width :: gui.SpacingInteger:
+def difficulty_min_width :: gui.View.SpacingInt:
   def max_len:
     for values(n: 0) (difficulty: difficulty_list):
       math.max(n,
@@ -51,7 +51,7 @@ def difficulty_choice:
     ~choice_to_label: difficulty_label,
   )
 
-def difficulty_description_obs :: gui.Obs.of(gui.LabelString):
+def difficulty_description_obs :: gui.Obs.of(gui.View.LabelString):
   difficulty_obs.map(difficulty_description)
 
 def difficulty_description_label:
