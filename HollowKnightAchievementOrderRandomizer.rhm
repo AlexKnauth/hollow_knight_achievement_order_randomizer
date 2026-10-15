@@ -31,7 +31,7 @@ fun difficulty_description(difficulty :: Difficulty) :: gui.View.LabelString:
       "Fearless + Cyclone-stall skips."
 
 fun estimate_width(n :: Int) :: gui.View.SpacingInt:
-  math.exact(math.ceiling(0.55 * gui.Label.normal_control_font.size * n))
+  math.exact(math.ceiling(0.55 * gui.View.normal_control_font.size * n))
 
 def difficulty_min_width :: gui.View.SpacingInt:
   def max_len:
@@ -137,8 +137,8 @@ def order_labels :: List.of(gui.Label):
 
 def order_vscroll_panel:
   gui.VPanel(
-    ~styles: [gui.VPanel.Style.vscroll],
-    ~alignment: [#'left, #'top],
+    ~style: [gui.VPanel.Style.vscroll],
+    ~align: [#'left, #'top],
     & order_labels,
   )
 

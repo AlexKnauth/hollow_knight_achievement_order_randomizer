@@ -29,17 +29,17 @@ def Charms_in: open_input_file(Charms_txt)
 def Completion_in: open_input_file(Completion_txt)
 def Essence_in: open_input_file(Essence_txt)
 
-def AARAO_shrb: shrubbery.read(AARAO_in)
-def Charms_shrb: shrubbery.read(Charms_in)
-def Completion_shrb: shrubbery.read(Completion_in)
-def Essence_shrb: shrubbery.read(Essence_in)
+def AARAO_shrb: shrubbery.read(~in: AARAO_in)
+def Charms_shrb: shrubbery.read(~in: Charms_in)
+def Completion_shrb: shrubbery.read(~in: Completion_in)
+def Essence_shrb: shrubbery.read(~in: Essence_in)
 
-enum Difficulty:
-  Beginner
-  Intermediate
-  Advanced
-  Fearless
-  Foolish
+enum Difficulty
+| Beginner
+| Intermediate
+| Advanced
+| Fearless
+| Foolish
 
 def Difficulty.default: Difficulty.Advanced
 
